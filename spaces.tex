@@ -2,7 +2,7 @@
 \documentclass[article, a4paper, 11pt, oneside]{memoir}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[danish,UKenglish]{babel}
+\usepackage[UKenglish]{babel}
 
 % Document info
 \newcommand\doctitle{Concrete topological spaces}
@@ -10,6 +10,7 @@
 
 % Formatting and layout
 \usepackage[autostyle]{csquotes}
+\renewcommand{\mktextelp}{(\textellipsis\unkern)}
 \usepackage[final]{microtype}
 \usepackage{xcolor}
 \frenchspacing
@@ -17,13 +18,16 @@
 \usepackage{styles/articlesectionstyle}
 
 % Fonts
-\usepackage[largesmallcaps]{kpfonts}
+\usepackage{amssymb}
+\usepackage[largesmallcaps,partialup]{kpfonts}
 \DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
 \linespread{1.06}
-\let\mathfrak\undefined
-\usepackage{eufrak}
+% \let\mathfrak\undefined
+% \usepackage{eufrak}
+\DeclareMathAlphabet\mathfrak{U}{euf}{m}{n}
+\SetMathAlphabet\mathfrak{bold}{U}{euf}{b}{n}
+% https://tex.stackexchange.com/questions/13815/kpfonts-with-eufrak
 \usepackage{inconsolata}
-\usepackage{amssymb}
 
 % Hyperlinks
 \usepackage{hyperref}
@@ -46,16 +50,19 @@
 
 % Mathematics
 \usepackage{styles/basicmathcommands}
-\usepackage{styles/topologycommands}
 \usepackage{styles/framedtheorems}
-\usepackage{styles/partialsymbol}
-\usepackage{styles/amalgsymbol}
+\usepackage{styles/topologycommands}
 \usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
 \usetikzlibrary{babel}
 
 % Lists
 \usepackage{enumitem}
-\setenumerate[0]{label=\normalfont(\arabic*)}
+\setenumerate[0]{label=\normalfont(\alph*)}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
 
 % Title
 \title{\doctitle}
