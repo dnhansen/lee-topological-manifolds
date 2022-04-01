@@ -1,0 +1,217 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Lee: \emph{Introduction to Topological Manifolds}}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\renewcommand{\mktextelp}{(\textellipsis\unkern)}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{styles/articlepagestyle}
+\usepackage{styles/articlesectionstyle}
+
+% Fonts
+\usepackage{amssymb}
+\usepackage[largesmallcaps,partialup]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+% \let\mathfrak\undefined
+% \usepackage{eufrak}
+\DeclareMathAlphabet\mathfrak{U}{euf}{m}{n}
+\SetMathAlphabet\mathfrak{bold}{U}{euf}{b}{n}
+% https://tex.stackexchange.com/questions/13815/kpfonts-with-eufrak
+\usepackage{inconsolata}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{styles/basicmathcommands}
+\usepackage{styles/framedtheorems}
+\usepackage{styles/topologycommands}
+\usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\alph*)}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+
+%% Framed exercise environment
+
+\mdfdefinestyle{swannexercise}{%
+    skipabove=0.5em plus 0.4em minus 0.2em,
+	skipbelow=0.5em plus 0.4em minus 0.2em,
+	leftmargin=-5pt,
+	rightmargin=-5pt,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=4pt,
+	linewidth=0pt,
+	splittopskip=1.2em minus 0.2em,
+	splitbottomskip=0.5em plus 0.2em minus 0.1em,
+	backgroundcolor=backgroundcolor,
+	frametitlebackgroundcolor=titlecolor,
+	frametitlefont={\scshape},
+    theoremseparator={\space\thechapter},
+    theoremspace={.},
+	frametitleaboveskip=3pt,
+	frametitlebelowskip=2pt
+}
+
+\mdtheorem[style=swannexercise]{exerciseframed}{Exercise}
+
+\let\oldexerciseframed\exerciseframed
+\renewcommand{\exerciseframed}{%
+  \crefalias{theorem}{exerciseframed}%
+  \oldexerciseframed}
+
+
+\mdtheorem[style=swannexercise]{problemframed}{Problem}
+
+\let\oldproblemframed\problemframed
+\renewcommand{\problemframed}{%
+    \crefalias{theorem}{problemframed}%
+    \oldproblemframed}
+
+\makeatother
+
+
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{solution}{Solution}
+
+\let\oldsolution\solution
+\renewcommand{\solution}{%
+  \crefalias{theorem}{solution}%
+  \oldsolution}
+
+\newcommand{\solutionlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
+\newlist{solutionsec}{enumerate}{1}
+\setlist[solutionsec]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+
+\newenvironment{displaytheorem}{%
+	\begin{displayquote}\itshape%
+}{%
+	\end{displayquote}%
+}
+
+
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\bbF}{\mathbb{F}}
+
+\begin{document}
+
+\maketitle
+
+\addtocounter{chapter}{4}
+\chapter{Cell Complexes}
+
+\begin{exerciseframed*}[3]
+    Suppose $X$ is a topological space whose topology is coherent with a family $\calB$ of subspaces.
+    %
+    \begin{enumerate}
+        \item If $Y$ is another topological space, then a map $f \colon X \to Y$ is continuous if and only if $f|_B$ is continuous for every $B \in \calB$.
+        \item The map $q \colon \coprod_{B\in\calB} B \to X$ induced by the inclusion of each set $B \hookrightarrow X$ is a quotient map.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $V \subseteq Y$. Then $f\preim(V)$ is open if and only if $(f|_B)\preim(V) = f\preim(V) \intersect B$ is open in $B$ for all $B \in \calB$. But this precisely expresses that each $f|_B$ is continuous, so the claim follows.
+
+    \item Notice that $q\preim(U) = U \intersect B$ for all $U \subseteq X$. Since the topology on $X$ is coherent with $\calB$, the set $U$ is open if and only if $U \intersect B$ is open for all $B \in \calB$. But this precisely expresses that $q$ is a quotient map.
+\end{solutionsec}
+\end{solution}
+
+
+\section*{Problems}
+
+\begin{problemframed*}[5]
+    Suppose $X$ is a topological space and $\{X_\alpha\}$ is a family of subspaces whose union in $X$. Show that the topology of $X$ is coherent with the subspaces $\{X_\alpha\}$ if and only if it is the finest topology on $X$ for which all of the inclusion maps $i_\alpha \colon X_\alpha \hookrightarrow X$ are continuous.
+\end{problemframed*}
+
+\begin{solution}
+    This follows immediately from the fact that $i_\alpha\preim(U) = U \intersect X_\alpha$ for all $U \subseteq X$.
+\end{solution}
+
+
+\begin{problemframed*}[6]
+    Suppose $X$ is a topological space. Show that the topology of $X$ is coherent with each of the following collections of subspaces of $X$:
+    %
+    \begin{enumerate}
+        \item Any open over of $X$.
+        \item Any locally finite closed cover of $X$.
+    \end{enumerate}
+\end{problemframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $\calV$ be an open cover of $X$. If $U \subseteq X$ is open $U \intersect V$ is open for all $V \in \calV$ (as Lee also remarks, this implication always holds). Conversely, if $U \intersect V$ is open in $V$ for all $V \in \calV$, then since each $V$ is open in $X$, $U \intersect V$ is also open in $X$. Furthermore, because $\calV$ is a cover of $X$ we have
+    %
+    \begin{equation*}
+        U
+            = U \intersect \bigunion_{V \in \calV} V
+            = \bigunion_{V \in \calV} (U \intersect V),
+    \end{equation*}
+    %
+    so $U$ is a union of open set, hence itself open.
+
+    \item We first prove the following lemma:
+    %
+    \begin{displaytheorem}
+        Let $\calF$ be a locally finite collection of closed sets in a topological space $X$. Then the union $\bbF = \bigunion_{F \in \calF} F$ is closed in $X$.
+    \end{displaytheorem}
+    %
+    Let $x \in \bbF^c$. Then since $\calF$ is locally finite, $x$ has an open neighbourhood $U$ that intersects finitely many elements from $\calF$, say $F_1, \ldots, F_n$. Let $U' = U \setminus (F_1 \union \cdots \union F_n)$. Then $U'$ is an open neighbourhood of $x$ disjoint from $\bbF$, so $\bbF^c$ is open.
+    
+    We now solve the exercise. Let $\calF$ be a locally finite closed over of $X$, and let $C \subseteq X$ be such that $C \intersect F$ is closed in $F$ for all $F \in \calF$. Then
+    %
+    \begin{equation*}
+        C
+            = C \intersect \bigunion_{F \in \calF} F
+            = \bigunion_{F \in \calF} (C \intersect F).
+    \end{equation*}
+    %
+    The collection $\set{C \intersect F}{F \in \calF}$ is clearly also locally finite, so since each $C \intersect F$ is closed in $X$, the lemma shows that the above union is also closed in $X$.
+\end{solutionsec}
+\end{solution}
+
+\end{document}
