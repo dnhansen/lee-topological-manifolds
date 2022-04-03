@@ -133,7 +133,14 @@ Furthermore, we make frequent use of a few central results without explicit refe
 
 
 \begin{example}[Spheres as quotients]
-    Define a map $q \colon \reals^{n+1} \setminus \{0\} \to \sphere^n$ by $q(x) = x/\norm{x}$. This is continuous and surjective, and its fibres are open rays in $\reals^{n+1} \setminus \{0\}$. Hence the saturated sets are unions of open rays, and $q$ sends these to open subsets of of $\sphere^n$, so $q$ is a quotient map. Thus $\sphere^n$ is obtained from $\reals^{n+1} \setminus \{0\}$ by collapsing open rays to a point. [3.64]
+    Define a map $q \colon \reals^{n+1} \setminus \{0\} \to \sphere^n$ by
+    %
+    \begin{equation*}
+        q(x)
+            = \frac{x}{\norm{x}}.
+    \end{equation*}
+    %
+    This is continuous and surjective, and its fibres are open rays in $\reals^{n+1} \setminus \{0\}$, so the saturated sets are unions of open rays. Let $U \subseteq \reals^{n+1} \setminus \{0\}$ be an open saturated set. Then clearly $q(U) = U \intersect \sphere^n$, and this is open in the subspace topology. Thus $q$ sends saturated open sets to open subsets of $\sphere^n$, and so $q$ is a quotient map. Thus $\sphere^n$ is obtained from $\reals^{n+1} \setminus \{0\}$ by collapsing open rays to a point. [3.64]
 \end{example}
 
 
