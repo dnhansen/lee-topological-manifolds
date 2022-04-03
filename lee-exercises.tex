@@ -135,14 +135,331 @@
 \newcommand{\calV}{\mathcal{V}}
 \newcommand{\calU}{\mathcal{U}}
 \newcommand{\calF}{\mathcal{F}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calT}{\mathcal{T}}
 \newcommand{\bbF}{\mathbb{F}}
 
 \begin{document}
 
 \maketitle
 
-\addtocounter{chapter}{4}
+\addtocounter{chapter}{1}
+\chapter{Topological Spaces}
+
+\begin{exerciseframed*}[32]
+    \begin{enumerate}
+        \item Every homeomorphism is a local homeomorphism.
+        \item Every local homeomorphism is continuous and open.
+        \item Every bijective local homeomorphism is a homeomorphism.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item This is obvious since the domain is an open neighbourhood of each point, and this is mapped onto the codomain which is also open.
+
+    \item Continuity follows from Exercise~5.3 and Problem~5.6. To prove openness, let $f \colon X \to Y$ be a local homeomorphism and $V \subseteq X$ an open set. Let $\calU$ be a cover of $V$ of open sets in accordance with the definition of local homeomorphisms. Then $V \intersect U$ is open in $U$ for all $U \in \calU$, and since $f|_U$ is a homeomorphism $f(V \intersect U)$ is also open in $f(U)$, hence in $Y$. Furthermore,
+    %
+    \begin{equation*}
+        f(V)
+            = \bigunion_{U \in \calU} f(V \intersect U),
+    \end{equation*}
+    %
+    so $f(V)$ is a union of open sets in $Y$.
+
+    \item This is obvious from (b).
+\end{solutionsec}
+\end{solution}
+
+
+\section*{Problems}
+
+\begin{problemframed*}[6]
+    Suppose $X$ and $Y$ are topological spaces, and $f \colon X \to Y$ is any map.
+    %
+    \begin{enumerate}
+        \item $f$ is continuous if and only if $f(\closure{A}) \subseteq \closure{f(A)}$ for all $A \subseteq X$.
+        \item $f$ is closed if and only if $f(\closure{A}) \supseteq \closure{f(A)}$ for all $A \subseteq X$.
+    \end{enumerate}
+\end{problemframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item First assume that $f$ is continuous, and let $A \subseteq X$. Then $A \subseteq f\preim(\closure{f(A)})$, which implies that $\closure{A} \subseteq f\preim(\closure{f(A)})$. This is equivalent to the property above.
+
+    Conversely, let $F \subseteq Y$ be closed. Then
+    %
+    \begin{equation*}
+        f \bigl( \closure{f\preim(F)} \bigr)
+            \subseteq \overline{f(f\preim(F))}
+            \subseteq \closure{F}
+            = F,
+    \end{equation*}
+    %
+    showing that $f$ is continuous.
+
+    \item The \enquote{if} implication is obvious, so we prove the converse. Let $F \subseteq X$ be closed. Then
+    %
+    \begin{equation*}
+        f(F)
+            = f(\closure{F})
+            \supseteq \closure{f(F)},
+    \end{equation*}
+    %
+    which shows that $f(F) = \closure{f(F)}$, so $f(F)$ is closed.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{problemframed*}[21]
+    Show that every locally Euclidean space is first countable.
+\end{problemframed*}
+
+\begin{solution}
+    Let $M$ be locally Euclidean of dimension $n$. If $p \in M$, then $p$ lies in the domain of a chart $(U,\phi)$. For simplicity we may let $U$ be homeomorphic to $\ball^n$. For $r \in \rationals \intersect (0,1]$ let $B_r$ be the preimage under $\phi$ of the ball $B_r(0) \subseteq \reals^n$. We claim that the $B_r$ constitute a neighbourhood basis at $p$.
+
+    Let $V$ be an open neighbourhood of $p$. By intersecting it with $U$ we may assume that $V \subseteq U$. Then $\phi(V)$ is open in $\ball^n$ and hence contains $B_r(0)$ for some $r \in \rationals \intersect (0,1]$. But then $V$ contains $B_r$.
+\end{solution}
+
+
+\begin{problemframed*}[23]
+    Show that every manifold has a basis of coordinate balls.
+\end{problemframed*}
+%
+[TODO: Is being locally Euclidean not enough?]
+
+\begin{solution}
+    Let $M$ be an $n$-manifold, and let $U \subseteq M$ be open. If $p \in U$, then $p$ lies in the domain of a chart. By intersecting $U$ with this chart domain we may assume that $U$ is itself the domain of a chart with coordinate map $\phi$. Since $\phi(U) \subseteq \reals^n$ is open it contains an open ball $B$ with $p \in B$. Notice that $\phi$ restricts to a homeomorphism $\phi\preim(B) \to B$, so this preimage is a coordinate ball lying in $U$ and containing $p$.
+\end{solution}
+
+
+\begin{problemframed*}[25]
+    If $M$ is an $n$-dimensional manifold with boundary, then $\interiorop M$ is an open subset of $M$, which is itself an $n$-dimensional manifold without boundary.
+\end{problemframed*}
+
+\begin{solution}
+    It suffices to show that $\interiorop M$ is open in $M$. To this end, let $p \in \interiorop M$, and let $(U,\phi)$ be an interior chart with $p \in U$. If $q \in U$, then $q$ also lies in the domain of an interior chart, namely $(U,\phi)$. Thus $q \in \interiorop M$, so $U \subseteq \interiorop M$.
+\end{solution}
+
+
+\chapter{New Spaces from Old}
+
+\section*{General notes}
+
+\begin{remark}
+    We rephrase Proposition~3.56 and its proof. First note that Problem~2.19 (which is used in its proof) implies that a locally Euclidean Lindelöf space is second countable. Next let $X$ be a Lindelöf space (so for instance a second countable space), $Y$ a locally Euclidean space, and let $f \colon X \to Y$ be a continuous surjection. Then $Y$ is also Lindelöf, hence second countable.
+
+    In particular, the hypothesis that $f$ be a quotient map is superfluous.
+\end{remark}
+
+
+\begin{remark}
+    We comment on the proof of Proposition~3.67, which shows that a continuous open/closed surjection is a quotient map. Let $q \colon X \to Y$ be such a map, and let $U \subseteq Y$. It suffices to show that if $q\preim(U)$ is open/closed, then so is $U$. But since $q$ is open/closed, so is $q(q\preim(U)) = U$, where the equality follows since $q$ is surjective.
+
+    In other words, there is no need to appeal to Proposition~3.60.
+\end{remark}
+
+
+\section*{Exercises}
+
+\begin{exerciseframed*}[32]
+    Let $\{ X_\alpha \}_{\alpha \in A}$ be a collection of topological spaces
+    %
+    \begin{enumerate}
+        \item For any $\beta \in A$ and any $x_\alpha \in X_\alpha$ for $\alpha \neq \beta$, define a map $f \colon X_\beta \to \bigprod_{\alpha \in A} X_\alpha$ by $f(x) = (x_\alpha)_{\alpha \in A}$, where $x_\beta = x$. Then $f$ is a topological embedding.
+
+        \item Each canonical projection $\pi_\beta \colon \bigprod_{\alpha \in A} X_\alpha \to X_\beta$ is an open map.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item It is easy to see by looking at a basis for the product space that $f$ is continuous. By Problem~3.13 it suffices to show that $f$ has a continuous left inverse. But the projection $\pi_\beta$ is a left inverse for $f$, and this is continuous.
+
+    \item It suffices to show that $\pi_\beta(U)$ is open for all elements $U$ in a basis for the product topology. Hence assume that $U$ is on the form $\bigprod_{\alpha \in A} U_\alpha$, where $U_\alpha$ is open in $X_\alpha$, and $U_\alpha = X_\alpha$ except for finitely many $\alpha$. But then $\pi_\beta(U) = U_\beta$, which is open.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed*}[55]
+    Show that every wedge sum of Hausdorff spaces is Hausdorff.
+\end{exerciseframed*}
+
+\begin{solution}
+    Let $\{X_\alpha\}_{\alpha \in A}$ be a collection of Hausdorff spaces, denote the base point of $X_\alpha$ by $p_\alpha$, and let $x$ and $y$ be distinct points in their wedge sum.
+
+    First assume that neither point is the base point, and that $x,y \in X_\alpha$ for some $\alpha \in A$. Picking disjoint open neighbourhoods $U,V \subseteq X_\alpha$ of $x$ and $y$ yields disjoint open neighbourhoods $U \setminus \{p_\alpha\}$ and $V \setminus \{p_\alpha\}$ of $x$ and $y$ in $X_\alpha$. These are clearly also disjoint and open in $\bigvee_{\alpha \in A} X_\alpha$.
+
+    Next assume that neither point is the base point, and that $x \in X_\alpha$ and $y \in X_\beta$ for some $\alpha \neq \beta$. In this case the sets $X_\alpha \setminus \{p_\alpha\}$ and $X_\beta \setminus \{p_\beta\}$ work.
+
+    Finally assume that $x$ is the base point and that $y \in X_\beta$. Let $x \in U$ and $y \in V$ in $X_\beta$. The set
+    %
+    \begin{equation*}
+        U \vee \bigjoin_{\alpha \neq \beta} X_\alpha
+    \end{equation*}
+    %
+    is an open neighbourhood of $x$ disjoint from $V$.
+\end{solution}
+
+\begin{exerciseframed*}[59]
+    Let $f \colon X \to Y$ be any map. For a subset $A \subseteq X$, show that the following are equivalent:
+    %
+    \begin{enumerate}
+        \item $A$ is saturated.
+        \item $A = f\preim(f(A))$.
+        \item $A$ is a union of fibres.
+        \item If $x \in A$, then $f(x) = f(x')$ implies that $x' \in A$, for all $x' \in X$.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{proofsec}
+    \item[(a) $\Leftrightarrow$ (b)]
+    First assume that $A$ is saturated, so that $A = f\preim(B)$ for some $B \subseteq Y$. Then $f(A) \subseteq B$, so $f\preim(f(A)) \subseteq f\preim(B) = A$, and the opposite inclusion always holds. The opposite implication is obvious.
+
+    \item[(a) $\Leftrightarrow$ (c)]
+    Simply notice that
+    %
+    \begin{equation*}
+        f\preim(B)
+            = f\preim \biggl( \bigunion_{y \in B} \{y\} \biggr)
+            = \bigunion_{y \in B} f\preim(y)
+    \end{equation*}
+    %
+    for any $B \subseteq Y$, so $A$ is on the form $f\preim(B)$ if and only if it is a union of fibres.
+
+    \item[(c) $\Leftrightarrow$ (d)]
+    First assume that $A$ is a union if fibres, and let $x \in A$. If $f(x) = f(x')$ for some $x' \in X$, then $x$ and $x'$ lie in the same fibre, and this fibre is either contained entirely in $A$ or is disjoint from $A$. Hence $x' \in A$.
+    
+    Conversely, if $x \in A$ then $f\preim(x) \subseteq A$, since $f(x) = f(x')$ for all $x'$ in this preimage.
+\end{proofsec}
+\end{solution}
+
+
+\begin{exerciseframed*}[61]
+    A continuous surjective map $q \colon X \to Y$ is a quotient map if and only if it takes saturated open subsets to open subsets, or saturated closed subsets to closed subsets.
+\end{exerciseframed*}
+
+\begin{solution}
+    First assume that $q$ is a quotient map, and let $U \subseteq X$ be a saturated open subset. Then since $U = q\preim(q(U))$, the set $U$ is open if and only if $q(U)$ is open.
+
+    Conversely, assume that $q$ takes saturated open subsets to open subsets, and let $V \subseteq Y$. We need to show that $V$ is open if and only if $q\preim(V)$ is open. The \enquote{only if} part follows since $q$ is continuous. For the \enquote{if} part, assume that $q\preim(V)$ is open and notice that it is saturated. But then $q(q\preim(V)) = V$ is also open, where the equality follows since $q$ is surjective.
+
+    The case where $q$ takes saturated closed subsets to closed subsets follows similarly (replace \enquote{open} with \enquote{closed} throughout).
+\end{solution}
+
+
+\begin{exerciseframed*}[62]
+    Properties of quotient maps.
+    %
+    \begin{enumerate}
+        \item Any composition of quotient maps is a quotient map.
+        \item An injective quotient map is a homeomorphism.
+        \item If $q \colon X \to Y$ is a quotient map, a subset $F \subseteq Y$ is closed if and only if $q\preim(F)$ is closed in $X$.
+        \item If $q \colon X \to Y$ is a quotient map and $U \subseteq X$ is a saturated open or closed subset, then the restriction $q|_U \colon U \to q(U)$ is a quotient map.
+        \item If $\{q_\alpha \colon X_\alpha \to Y_\alpha\}_{\alpha \in A}$ is an indexed family of quotient maps, then the map $q \colon \coprod_{\alpha \in A} X_\alpha \to \coprod_{\alpha \in A} Y_\alpha$ whose restriction to each $X_\alpha$ is equal to $q_\alpha$ is a quotient map.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item This follows from the fact that final topologies compose.
+
+    \item Let $q \colon X \to Y$ be an injective quotient map. Since $q$ is already continuous and surjective, it suffices to show that it is open. For any subset $U \subseteq X$ we have $U = q\preim(q(U))$ since $q$ is injective, so $U$ is open if and only if $q(U)$ is. Hence $q$ is open.
+    
+    \item This follows easily from the definition of the quotient topology by taking complements.
+
+    \item Assume that $U$ is open (the case where $U$ is closed is similar). By Proposition~3.60 (or Exercise~3.61) it suffices to show that $q|_U$ takes saturated open subsets of $U$ to open subsets, so let $V \subseteq U$ be open. Then $V$ is also open in $X$, and $q(V)$ is open in $Y$. But then $q(V)$ is also open in $q(U)$ as desired.
+
+    \item This also follows from the fact that final topologies compose. To be explicit, consider for each $\beta \in A$ the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}[column sep=small]
+            X_\beta
+                \ar[rr, "q_\beta"]
+                \ar[dr, "\iota_{X_\beta}", swap]
+            && Y_\beta
+                \ar[dr, "\iota_{Y_\beta}"] \\
+            & \coprod\limits_{\alpha \in A} X_\alpha
+                \ar[rr, "q", swap]
+            && \coprod\limits_{\alpha \in A} Y_\alpha
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Each $Y_\beta$ has the final topology coinduced by $q_\beta$, and $\coprod_{\alpha \in A} Y_\alpha$ has the final topology coinduced by the maps $\iota_{Y_\beta}$. Since final topologies compose, this also has the final topology induced by the maps $\iota_{Y_\beta} \circ q_\beta$. But since the above diagram commutes, this is the same as the final topology coinduced by the maps $q \circ \iota_{X_\beta}$. But since $\coprod_{\alpha \in A} X_\alpha$ itself carries the final topology coinduced by the $\iota_{X_\beta}$, the topology on $\coprod_{\alpha \in A} Y_\alpha$ is the same as the final topology coinduced by the map $q$.
+\end{solutionsec}
+\end{solution}
+
+
+\section*{Problems}
+
+\begin{problemframed*}[1]
+    Suppose $M$ is an $n$-dimensional manifold with boundary. Show that $\boundary M$ is an $(n-1)$-manifold (without boundary) when endowed with the subspace topology. (We may assume invariance of the boundary.)
+\end{problemframed*}
+
+\newcommand{\halfspace}{\mathbb{H}}
+
+\begin{solution}
+    Let $p \in \boundary M$. Then $p$ lies in the domain of a boundary chart $(U,\phi)$, and $\phi(p) \in \boundary \halfspace^n$. We claim that $\phi$ maps $U \intersect \boundary M$ into $\boundary \halfspace^n$. If $q \in U \intersect \boundary M$, then $q$ does not lie in $\interiorop M$ (since we are assuming invariance of the boundary). If we had $\phi(q) \in \interiorop \halfspace^n$, then we could restrict the domain of $U$ to a smaller open set $U'$ such that we still had $q \in U'$, and such that $\phi(U')$ was an open subset of $\interiorop\halfspace^n$. (For instance, we could simply remove $\boundary\halfspace^n$ from the codomain and restrict the domain accordingly.) But this is impossible since $q$ is not an interior point, so we must have $\phi(q) \in \boundary\halfspace^n$.
+
+    Hence $\phi$ restricted to $U \intersect \boundary M$ is a chart from $\boundary M$ to $\boundary\halfspace^n \cong \reals^{n-1}$.
+\end{solution}
+
+
+\begin{problemframed*}[13]
+    Suppose $X$ and $Y$ are topological spaces and $f \colon X \to Y$ is a continuous map. Prove the following:
+    %
+    \begin{enumerate}
+        \item If $f$ admits a continuous left inverse, it is a topological embedding.
+        \item If $f$ admits a continuous right inverse, it is a quotient map.
+        \item TODO
+    \end{enumerate}
+\end{problemframed*}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $g \colon Y \to X$ be a continuous left inverse of $f$, and define $\tilde{f} \colon X \to f(X)$ by $\tilde{f}(x) = f(x)$. Then $g|_{f(X)}$ is continuous and a left inverse of $\tilde{f}$. But since $\tilde{f}$ is bijective it has a unique (two-sided) inverse, namely $g|_{f(X)}$, and since this is also continuous $\tilde{f}$ is a homeomorphism.
+
+    \item Let $g \colon Y \to X$ be a continuous right inverse of $f$, and let $U \subseteq Y$ be such that $f\preim(U)$ is open. Then
+    %
+    \begin{equation*}
+        g\preim(f\preim(U))
+            = (f \circ g)\preim(U)
+            = U
+    \end{equation*}
+    %
+    is also open, so $f$ is a quotient map.
+
+    \item
+\end{solutionsec}
+\end{solution}
+
+\begin{remark}
+    I would have liked for split mono- and epimorphisms to be open and closed, but I'm not sure this is the case. Instead, this problem and Proposition~3.69 seem to provide independent criteria under which a continuous map $f$ is an embedding or a quotient map: In either case $f$ must be injective/surjective. But then we further assume either that $f$ splits, or that $f$ is open/closed. In other words, the hypothesis that $f$ splits can be replaced with the weaker hypothesis that $f$ is injective/surjective, but then we must further assume that $f$ is open or closed.
+\end{remark}
+
+
+\addtocounter{chapter}{1}
 \chapter{Cell Complexes}
+
+\section*{General notes}
+
+\begin{remarkbreak}[Coherent topologies]
+    \label{rem:coherent-topologies}
+    Let $(X,\calT)$ be a topological space, and let $\calB$ be a collection of subspaces of $X$ whose union is $X$. We claim that $\calT$ is coherent with $\calB$ if and only if $\calT$ is the final topology coinduced by the inclusion maps $\iota_B \colon B \to X$ for all $B \in \calB$. For this topology has the property that a set $U \subseteq X$ is open if and only if $\iota_B\preim(U) = U \intersect B$ is open in $B$ for all $B \in \calB$.
+
+    This is precisely Problem~5.5.
+\end{remarkbreak}
+
+
+\begin{remark}
+    We comment on Proposition~5.4, the claim that Hausdorff spaces equipped with a locally finite cell depomposition is a CW complex.
+
+    Let $\calE$ be the cell decomposition in question, and let $\closure{\calE} = \set{\closure{e}}{e \in \calE}$. Then $\closure{\calE}$ is a locally finite closed cover of $X$, so Problem~5.6(b) shows that the topology of $X$ is coherent with $\closure{\calE}$.
+\end{remark}
+
+
+\section*{Exercises}
 
 \begin{exerciseframed*}[3]
     Suppose $X$ is a topological space whose topology is coherent with a family $\calB$ of subspaces.
@@ -157,7 +474,11 @@
 \begin{solutionsec}
     \item Let $V \subseteq Y$. Then $f\preim(V)$ is open if and only if $(f|_B)\preim(V) = f\preim(V) \intersect B$ is open in $B$ for all $B \in \calB$. But this precisely expresses that each $f|_B$ is continuous, so the claim follows.
 
+    Alternatively, since $f|_B = \iota_B \circ f$, this precisely expresses the universal property of the final topology induced by the inclusion maps $\iota_B$, so this follows from \cref{rem:coherent-topologies}.
+
     \item Notice that $q\preim(U) = U \intersect B$ for all $U \subseteq X$. Since the topology on $X$ is coherent with $\calB$, the set $U$ is open if and only if $U \intersect B$ is open for all $B \in \calB$. But this precisely expresses that $q$ is a quotient map.
+
+    Alternatively, this follows since $X$ has the final topology induced by the inclusion maps, but the disjoint union $\coprod_{B\in\calB} B$ also has a final topology, and final topologies compose.
 \end{solutionsec}
 \end{solution}
 
