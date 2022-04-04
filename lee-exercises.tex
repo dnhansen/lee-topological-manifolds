@@ -259,6 +259,54 @@
     In other words, there is no need to appeal to Proposition~3.60.
 \end{remark}
 
+\newcommand{\congto}{\xrightarrow{\raisebox{-1ex}[0ex][0ex]{$\sim$}}}
+% https://tex.stackexchange.com/questions/479322/too-much-vertical-space-above-xrightarrow/479324#479324
+
+\begin{remarkbreak}[Uniqueness of quotient spaces]
+    We phrase the proof of Theorem~3.75 in a slightly different way. If $q_1 \colon X \to Y_1$ and $q_2 \colon X \to Y_2$ are quotient maps that make the same identifications, then each map factors uniquely through the other. This yields the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            & X
+                \ar[dl, "q_1", swap]
+                \ar[d, "q_2"]
+                \ar[dr, "q_1"] \\
+            Y_1
+                \ar[r, dashed, "\tilde{q}_2", swap]
+            & Y_2
+                \ar[r, dashed, "\tilde{q}_1", swap]
+            & Y_1
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Since $q_1$ factors uniquely through itself as the identity, we have $\tilde{q}_1 \circ \tilde{q}_2 = \id_{Y_1}$. By symmetry we also have $\tilde{q}_2 \circ \tilde{q}_1 = \id_{Y_2}$, so $Y_1 \cong Y_2$.
+
+    This in particular yields a sort of \enquote{first isomorphism theorem} for topology. Let $q \colon X \to Y$ be a quotient map, and denote by $\ker q$ the equivalence relation on $X$ given by $x \sim x'$ if and only if $q(x) = q(x')$. The quotient map $p \colon X \to X/{\ker q}$ then trivially makes the same identifications as $q$, so $q$ descends to a homeomorphism $\tilde{q} \colon X/{\ker q} \congto Y$.
+    
+    Notice that we do require $q$ to be a quotient map: Say that $q$ is only assumed to be a continuous surjection. It then induces a continuous map $\tilde{q} \colon X/{\ker q} \to Y$, and we have the commutative diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}[column sep=small]
+            & X
+                \ar[dl, "p", swap]
+                \ar[dr, "q"] \\
+            X/{\ker q}
+                \ar[rr, "\tilde{q}", swap]
+            && Y
+        \end{tikzcd}
+    \end{equation*}
+    %
+    If $\tilde{q}$ is a homeomorphism then $Y$ automatically carries the quotient topology induced by $q$. For a subset $U \subseteq Y$ is open if and only if $\tilde{q}\preim(U)$ is open, which is the case if and only if
+    %
+    \begin{equation*}
+        p\preim(\tilde{q}\preim(U))
+            = (\tilde{q} \circ p)\preim(U)
+            = q\preim(U)
+    \end{equation*}
+    %
+    is open.
+\end{remarkbreak}
+
 
 \section*{Exercises}
 
