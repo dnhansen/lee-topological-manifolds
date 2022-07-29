@@ -434,7 +434,7 @@
 
 
 \begin{exerciseframed}[3.32]
-    Let $\{ X_\alpha \}_{\alpha \in A}$ be a collection of topological spaces
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces.
     %
     \begin{enumerate}
         \item For any $\beta \in A$ and any $x_\alpha \in X_\alpha$ for $\alpha \neq \beta$, define a map $f \colon X_\beta \to \bigprod_{\alpha \in A} X_\alpha$ by $f(x) = (x_\alpha)_{\alpha \in A}$, where $x_\beta = x$. Then $f$ is a topological embedding.
@@ -448,6 +448,56 @@
     \item Clearly $f$ is continuous since its coordinate functions $\pi_\alpha \circ f$ are all continuous. By \probref{3.13} it suffices to show that $f$ has a continuous left inverse. But the projection $\pi_\beta$ is a left inverse for $f$, and this is continuous.
 
     \item It suffices to show that $\pi_\beta(U)$ is open for all elements $U$ in a basis for the product topology. Hence assume that $U$ is on the form $\bigprod_{\alpha \in A} U_\alpha$, where $U_\alpha$ is open in $X_\alpha$, and $U_\alpha = X_\alpha$ except for finitely many $\alpha$. But then $\pi_\beta(U) = U_\beta$, which is open.
+\end{solutionsec}
+\end{solution}
+
+\begin{remark}
+    In the notation of \exref{3.32}, if $B \subseteq A$ then we may generalise the exercise as follows: Any $(y_\beta) \in \bigprod_{\beta \in B} X_\beta$ and $(x_\alpha) \in \bigprod_{\alpha \in A} X_\alpha$ induces an embedding $f$ in the obvious way. This is indeed an embedding since the projection $\pi^A_B \colon \bigprod_{\alpha \in A} X_\alpha \to \bigprod_{\beta \in B} X_\beta$ is a left inverse to it.
+
+    Similarly, the projection $\pi^A_B$ is a continuous, open surjection and hence a quotient map by Proposition~3.67. But the obvious projection onto the product
+    %
+    \begin{equation*}
+        \bigprod_{\beta \in B} X_\beta
+            \times \bigprod_{\alpha \in A \setminus B} \{x_\alpha\}
+    \end{equation*}
+    %
+    is also a quotient map by the same argument, and it makes the same identifications as $\pi^A_B$, so this space is homeomorphic to $\bigprod_{\beta \in B} X_\beta$ by Theorem~3.75.
+\end{remark}
+
+
+\begin{exerciseframed}[3.43] % TODO: Big coproduct command
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and let $X = \coprod_{\alpha \in A} X_\alpha$.
+    %
+    \begin{enumerate}
+        \item A subset of $X$ is open/closed if and only if its intersection with each $X_\alpha$ is open/closed.
+        
+        \item Each canonical injection $\iota_\alpha \colon X_\alpha \to X$ is a topological embedding and an open and closed map.
+        
+        \item If each $X_\alpha$ is second countable and $A$ is countable, then $X$ is second countable.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Since the disjoint union topology is a final topology, a subset $B \subseteq X$ is open if and only if $\iota_\alpha\preim(B) = B \intersect X_\alpha$ is open in $X_\alpha$ for all $\alpha \in A$. The claim for closed subsets follows by taking complements.
+
+    \item It suffices to show that $\iota_\alpha$ is both open and closed by Proposition~3.16. Let $U \subseteq X_\alpha$ be open, and notice that
+    %
+    \begin{equation*}
+        \iota_\beta\preim(\iota_\alpha(U))
+            = \iota_\alpha(U) \intersect X_\beta
+            =
+            \begin{cases}
+                U, & \beta = \alpha, \\
+                \emptyset, & \beta \neq \alpha,
+            \end{cases}
+    \end{equation*}
+    %
+    which is open for all $\beta \in A$. Hence $\iota_\alpha(U)$ is open. The same holds if $U$ is closed.
+
+    In fact, if $X_\alpha$ is nonempty, say $x \in X_\alpha$, then $\iota_\alpha$ has a left inverse: For instance the map $q \colon X \to X_\alpha$ that is the identity on $X_\alpha$ (which is both open and closed in $X$) and is constant and equal to $x$ on $X \setminus X_\alpha$.
+
+    \item Let $\calB_\alpha$ be a countable basis for $X_\alpha$. Then it is easy to check that $\bigunion_{\alpha \in A} \iota_\alpha(\calB_\alpha)$ is a countable basis for $X$, since $\iota_\alpha$ is open.
 \end{solutionsec}
 \end{solution}
 
@@ -791,7 +841,7 @@ For a counterexample when the space is not locally connected, consider $\rationa
     Suppose $X$ is a topological space. Show that the topology of $X$ is coherent with each of the following collections of subspaces of $X$:
     %
     \begin{enumerate}
-        \item Any open over of $X$.
+        \item Any open cover of $X$.
         \item Any locally finite closed cover of $X$.
     \end{enumerate}
 \end{problemframed}
