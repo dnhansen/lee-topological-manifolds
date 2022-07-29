@@ -86,8 +86,8 @@
 	backgroundcolor=backgroundcolor,
 	frametitlebackgroundcolor=titlecolor,
 	frametitlefont={\scshape},
-    theoremseparator={\space\thechapter},
-    theoremspace={.},
+    theoremseparator={},
+    % theoremspace={},
 	frametitleaboveskip=3pt,
 	frametitlebelowskip=2pt
 }
@@ -99,16 +99,65 @@
   \crefalias{theorem}{exerciseframed}%
   \oldexerciseframed}
 
+\usepackage{listofitems}
+
+\settocdepth{subsection}
+\renewenvironment{exerciseframed}[1][]{%
+    \setsepchar{.}%
+    \readlist*\mylist{#1}%
+    \def\smalllabel{\mylist[2].\mylist[3]}%
+    \refstepcounter{exerciseframed}%
+    % \addcontentsline{toc}{subsection}{Exercise \smalllabel}%
+    \begin{exerciseframed*}[#1]%
+    \label{ex:#1}%
+}{%
+    \end{exerciseframed*}%
+}
+
+% https://tex.stackexchange.com/a/23491/63353
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\newcommand{\exref}[1]{%
+    % \setsepchar{.}%
+    % \readlist*\mylist{#1}%
+    % \ifnum \arabic{chapter}=\mylist[1]
+    %     \def\mylabel{\mylist[2].\mylist[3]}%
+    % \else
+    %     \def\mylabel{\RNum{\mylist[1]}.\mylist[2].\mylist[3]}%
+    % \fi
+    \hyperref[ex:#1]{Exercise~#1}%
+}
+
 
 \mdtheorem[style=swannexercise]{problemframed}{Problem}
 
 \let\oldproblemframed\problemframed
 \renewcommand{\problemframed}{%
-    \crefalias{theorem}{problemframed}%
-    \oldproblemframed}
+  \crefalias{theorem}{problemframed}%
+  \oldproblemframed}
 
-\makeatother
+\renewenvironment{problemframed}[1][]{%
+    \setsepchar{.}%
+    \readlist*\mylist{#1}%
+    \def\smalllabel{\mylist[2].\mylist[3]}%
+    \refstepcounter{problemframed}%
+    % \addcontentsline{toc}{subsection}{Exercise \smalllabel}%
+    \begin{problemframed*}[#1]%
+    \label{prob:#1}%
+}{%
+    \end{problemframed*}%
+}
 
+\newcommand{\probref}[1]{%
+    % \setsepchar{.}%
+    % \readlist*\mylist{#1}%
+    % \ifnum \arabic{chapter}=\mylist[1]
+    %     \def\mylabel{\mylist[2].\mylist[3]}%
+    % \else
+    %     \def\mylabel{\RNum{\mylist[1]}.\mylist[2].\mylist[3]}%
+    % \fi
+    \hyperref[prob:#1]{Problem~#1}%
+}
 
 
 \theoremstyle{nonumberplain}
@@ -139,6 +188,10 @@
 \newcommand{\calT}{\mathcal{T}}
 \newcommand{\bbF}{\mathbb{F}}
 
+% TODO move to .sty?
+\renewcommand{\disunion}{\sqcup}
+
+
 \begin{document}
 
 \maketitle
@@ -146,19 +199,30 @@
 \addtocounter{chapter}{1}
 \chapter{Topological Spaces}
 
-\begin{exerciseframed*}[32]
+\section*{General notes}
+
+\begin{remarkbreak}[Local homeomorphism]
+    If $f \colon X \to Y$ is a local homeomorphism, let us (temporarily) say that $X$ is \emph{locally homeomorphic} to $Y$. Notice that this is \emph{not} a symmetric relation. For instance, any discrete space is locally homeomorphic to $Y = \{0\} \union [1,2]$, but $Y$ is clearly not homeomorphic to a discrete space. On the other hand, the relation is clearly transitive and reflexive, so local homeomorphism defines a preorder on the class of topological spaces. I am not aware that this has any significance.
+    
+    Notice also that if a space is locally homeomorphic to $\reals^n$, then it is locally Euclidean of dimension $n$. The converse is false: For instance, assume towards a contradiction that there is a local homeomorphism $f \colon \sphere^1 \to \reals$. The image $f(\sphere^1)$ is then a compact, hence closed and proper, subset of $\reals$. But by \exref{2.32} $f$ is open, so this is impossible. % TODO ref to Exercise 2.32(b)
+\end{remarkbreak}
+
+
+\section*{Exercises}
+
+\begin{exerciseframed}[2.32]
     \begin{enumerate}
         \item Every homeomorphism is a local homeomorphism.
         \item Every local homeomorphism is continuous and open.
         \item Every bijective local homeomorphism is a homeomorphism.
     \end{enumerate}
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
 \begin{solutionsec}
     \item This is obvious since the domain is an open neighbourhood of each point, and this is mapped onto the codomain which is also open.
 
-    \item Continuity follows from Exercise~5.3 and Problem~5.6. To prove openness, let $f \colon X \to Y$ be a local homeomorphism and $V \subseteq X$ an open set. Let $\calU$ be a cover of $V$ of open sets in accordance with the definition of local homeomorphisms. Then $V \intersect U$ is open in $U$ for all $U \in \calU$, and since $f|_U$ is a homeomorphism $f(V \intersect U)$ is also open in $f(U)$, hence in $Y$. Furthermore,
+    \item Continuity follows from \exref{5.3} and \probref{5.6}: the definition gives an open cover, \probref{5.6} says that the topology on the domain is coherent with this cover, and \exref{5.3} then yields continuity. To prove openness, let $f \colon X \to Y$ be a local homeomorphism and $V \subseteq X$ an open set. Let $\calU$ be a cover of $V$ of open sets in accordance with the definition of local homeomorphisms. Then $V \intersect U$ is open in $U$ for all $U \in \calU$, and since $f|_U$ is a homeomorphism $f(V \intersect U)$ is also open in $f(U)$, hence in $Y$. Furthermore,
     %
     \begin{equation*}
         f(V)
@@ -174,14 +238,14 @@
 
 \section*{Problems}
 
-\begin{problemframed*}[6]
+\begin{problemframed}[2.6]
     Suppose $X$ and $Y$ are topological spaces, and $f \colon X \to Y$ is any map.
     %
     \begin{enumerate}
         \item $f$ is continuous if and only if $f(\closure{A}) \subseteq \closure{f(A)}$ for all $A \subseteq X$.
         \item $f$ is closed if and only if $f(\closure{A}) \supseteq \closure{f(A)}$ for all $A \subseteq X$.
     \end{enumerate}
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
 \begin{solutionsec}
@@ -196,7 +260,7 @@
             = F,
     \end{equation*}
     %
-    showing that $f$ is continuous.
+    implying that $\closure{f\preim(F)} \subseteq f\preim(F)$, so $f\preim(F)$ is closed.
 
     \item The \enquote{if} implication is obvious, so we prove the converse. Let $F \subseteq X$ be closed. Then
     %
@@ -211,9 +275,9 @@
 \end{solution}
 
 
-\begin{problemframed*}[21]
+\begin{problemframed}[2.21]
     Show that every locally Euclidean space is first countable.
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
     Let $M$ be locally Euclidean of dimension $n$. If $p \in M$, then $p$ lies in the domain of a chart $(U,\phi)$. For simplicity we may let $U$ be homeomorphic to $\ball^n$. For $r \in \rationals \intersect (0,1]$ let $B_r$ be the preimage under $\phi$ of the ball $B_r(0) \subseteq \reals^n$. We claim that the $B_r$ constitute a neighbourhood basis at $p$.
@@ -222,9 +286,9 @@
 \end{solution}
 
 
-\begin{problemframed*}[23]
+\begin{problemframed}[2.23]
     Show that every manifold has a basis of coordinate balls.
-\end{problemframed*}
+\end{problemframed}
 %
 [TODO: Is being locally Euclidean not enough?]
 
@@ -233,9 +297,9 @@
 \end{solution}
 
 
-\begin{problemframed*}[25]
+\begin{problemframed}[2.25]
     If $M$ is an $n$-dimensional manifold with boundary, then $\interiorop M$ is an open subset of $M$, which is itself an $n$-dimensional manifold without boundary.
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
     It suffices to show that $\interiorop M$ is open in $M$. To this end, let $p \in \interiorop M$, and let $(U,\phi)$ be an interior chart with $p \in U$. If $q \in U$, then $q$ also lies in the domain of an interior chart, namely $(U,\phi)$. Thus $q \in \interiorop M$, so $U \subseteq \interiorop M$.
@@ -246,8 +310,28 @@
 
 \section*{General notes}
 
+\begin{remarkbreak}[Product maps]
+    For each $\alpha \in A$ let $X_\alpha$ and $Y_\alpha$ be topological spaces and $f_\alpha \colon X_\alpha \to Y_\alpha$ be continuous maps. These give rise to continuous maps $f_\alpha \circ \pi_{X_\alpha} \colon \bigprod_{\alpha \in A} X_\alpha \to Y_\alpha$, and the universal property of products then induces a map continuous map $f \colon \bigprod_{\alpha \in A} X_\alpha \to \bigprod_{\alpha \in A} Y_\alpha$ such that the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}[column sep=small]
+            \bigprod\limits_{\alpha \in A} X_\alpha
+                \ar[rr, "f"]
+                \ar[dr, "\pi_{X_\beta}", swap]
+            && \bigprod\limits_{\alpha \in A} Y_\alpha
+                \ar[dr, "\pi_{Y_\beta}"] \\
+            & X_\beta
+                \ar[rr, "f_\beta", swap]
+            && Y_\beta
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes for all $\beta \in A$. We call this map the \emph{product map} of the $f_\alpha$. This is of course a special case of product maps between products in any category with products (of some cardinality).
+\end{remarkbreak}
+
+
 \begin{remark}
-    We rephrase Proposition~3.56 and its proof. First note that Problem~2.19 (which is used in its proof) implies that a locally Euclidean Lindelöf space is second countable. Next let $X$ be a Lindelöf space (so for instance a second countable space), $Y$ a locally Euclidean space, and let $f \colon X \to Y$ be a continuous surjection. Then $Y$ is also Lindelöf, hence second countable.
+    We rephrase Proposition~3.56 and its proof. First note that \probref{2.19} (which is used in its proof) implies that a locally Euclidean Lindelöf space is second countable. Next let $X$ be a Lindelöf space (so for instance a second countable space), $Y$ a locally Euclidean space, and let $f \colon X \to Y$ be a continuous surjection. Then $Y$ is also Lindelöf, hence second countable.
 
     In particular, the hypothesis that $f$ be a quotient map is superfluous.
 \end{remark}
@@ -286,7 +370,7 @@
     Notice that we do require $q$ to be a quotient map: Say that $q$ is only assumed to be a continuous surjection. It then induces a continuous map $\tilde{q} \colon X/{\ker q} \to Y$, and we have the commutative diagram
     %
     \begin{equation*}
-        \begin{tikzcd}[column sep=small]
+        \begin{tikzcd}[column sep=tiny]
             & X
                 \ar[dl, "p", swap]
                 \ar[dr, "q"] \\
@@ -308,9 +392,48 @@
 \end{remarkbreak}
 
 
+\begin{remarkbreak}[Adjunction spaces]
+    We elaborate on the proof of Proposition~3.77. In part (a) we show that $q|_X$ is closed by considering a closed set $B \subseteq X$. For $x \in X \disunion Y$ we have $x \in q\preim(q(B))$ if and only if $q(x) \in q(B)$, and this is the case just when $x$ is equivalent to some element of $B$. Since no two distinct points in $X$ are identified, if $x \in X$ then we must have $x \in B$. On the other hand, if $x \in Y$ then $x$ is identified with an element in $B \subseteq X$ just when $f(x) \in B$. It follows that
+    %
+    \begin{equation*}
+        q\preim(q(B)) \intersect X = B 
+        \quad \text{and} \quad
+        q\preim(q(B)) \intersect Y = f\preim(B).
+    \end{equation*}
+    %
+    The set $f\preim(B)$ is closed in $A$, which is closed in $Y$ (here we use this assumption) so $f\preim(B)$ is closed in $Y$.
+\end{remarkbreak}
+
+
 \section*{Exercises}
 
-\begin{exerciseframed*}[32]
+\begin{exerciseframed}[3.7]
+    Suppose $X$ is a topological space and $U \subseteq S \subseteq X$.
+    %
+    \begin{enumerate}
+        \item Show that the closure of $U$ in $S$ is equal to $\closure{U} \intersect S$, i.e. that
+        %
+        \begin{equation*}
+            \closure[S]{U}
+                = \closure{U} \intersect S.
+        \end{equation*}
+
+        \item TODO.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item We prove each inclusion. Since $\closure{U}$ is closed in $X$, the set $\closure{U} \intersect S$ is closed in $S$. But then minimality of the closure implies that $\closure[S]{U} \subseteq \closure{U} \intersect S$.
+
+    Conversely, let $F \subseteq S$ be a closed set containing $U$. There is then a set $\hat{F} \subseteq X$ closed in $X$ such that $F = \hat{F} \intersect S$. Then $\closure{U} \subseteq \hat{F}$, so $\closure{U} \intersect S \subseteq \hat{F} \intersect S = F$. Since $F$ was arbitrary, it follows that $\closure{U} \intersect S \subseteq \closure[S]{U}$.
+
+    \item
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed}[3.32]
     Let $\{ X_\alpha \}_{\alpha \in A}$ be a collection of topological spaces
     %
     \begin{enumerate}
@@ -318,20 +441,20 @@
 
         \item Each canonical projection $\pi_\beta \colon \bigprod_{\alpha \in A} X_\alpha \to X_\beta$ is an open map.
     \end{enumerate}
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
 \begin{solutionsec}
-    \item It is easy to see by looking at a basis for the product space that $f$ is continuous. By Problem~3.13 it suffices to show that $f$ has a continuous left inverse. But the projection $\pi_\beta$ is a left inverse for $f$, and this is continuous.
+    \item Clearly $f$ is continuous since its coordinate functions $\pi_\alpha \circ f$ are all continuous. By \probref{3.13} it suffices to show that $f$ has a continuous left inverse. But the projection $\pi_\beta$ is a left inverse for $f$, and this is continuous.
 
     \item It suffices to show that $\pi_\beta(U)$ is open for all elements $U$ in a basis for the product topology. Hence assume that $U$ is on the form $\bigprod_{\alpha \in A} U_\alpha$, where $U_\alpha$ is open in $X_\alpha$, and $U_\alpha = X_\alpha$ except for finitely many $\alpha$. But then $\pi_\beta(U) = U_\beta$, which is open.
 \end{solutionsec}
 \end{solution}
 
 
-\begin{exerciseframed*}[55]
+\begin{exerciseframed}[3.55]
     Show that every wedge sum of Hausdorff spaces is Hausdorff.
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
     Let $\{X_\alpha\}_{\alpha \in A}$ be a collection of Hausdorff spaces, denote the base point of $X_\alpha$ by $p_\alpha$, and let $x$ and $y$ be distinct points in their wedge sum.
@@ -349,7 +472,7 @@
     is an open neighbourhood of $x$ disjoint from $V$.
 \end{solution}
 
-\begin{exerciseframed*}[59]
+\begin{exerciseframed}[3.59]
     Let $f \colon X \to Y$ be any map. For a subset $A \subseteq X$, show that the following are equivalent:
     %
     \begin{enumerate}
@@ -358,7 +481,7 @@
         \item $A$ is a union of fibres.
         \item If $x \in A$, then $f(x) = f(x')$ implies that $x' \in A$, for all $x' \in X$.
     \end{enumerate}
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
 \begin{proofsec}
@@ -384,9 +507,9 @@
 \end{solution}
 
 
-\begin{exerciseframed*}[61]
+\begin{exerciseframed}[3.61]
     A continuous surjective map $q \colon X \to Y$ is a quotient map if and only if it takes saturated open subsets to open subsets, or saturated closed subsets to closed subsets.
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
     First assume that $q$ is a quotient map, and let $U \subseteq X$ be a saturated open subset. Then since $U = q\preim(q(U))$, the set $U$ is open if and only if $q(U)$ is open.
@@ -397,7 +520,7 @@
 \end{solution}
 
 
-\begin{exerciseframed*}[62]
+\begin{exerciseframed}[3.63]
     Properties of quotient maps.
     %
     \begin{enumerate}
@@ -407,7 +530,7 @@
         \item If $q \colon X \to Y$ is a quotient map and $U \subseteq X$ is a saturated open or closed subset, then the restriction $q|_U \colon U \to q(U)$ is a quotient map.
         \item If $\{q_\alpha \colon X_\alpha \to Y_\alpha\}_{\alpha \in A}$ is an indexed family of quotient maps, then the map $q \colon \coprod_{\alpha \in A} X_\alpha \to \coprod_{\alpha \in A} Y_\alpha$ whose restriction to each $X_\alpha$ is equal to $q_\alpha$ is a quotient map.
     \end{enumerate}
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
 \begin{solutionsec}
@@ -417,7 +540,7 @@
     
     \item This follows easily from the definition of the quotient topology by taking complements.
 
-    \item Assume that $U$ is open (the case where $U$ is closed is similar). By Proposition~3.60 (or Exercise~3.61) it suffices to show that $q|_U$ takes saturated open subsets of $U$ to open subsets, so let $V \subseteq U$ be open. Then $V$ is also open in $X$, and $q(V)$ is open in $Y$. But then $q(V)$ is also open in $q(U)$ as desired.
+    \item Assume that $U$ is open (the case where $U$ is closed is similar). By Proposition~3.60 (i.e. \exref{3.61}) it suffices to show that $q|_U$ takes saturated open subsets of $U$ to open subsets, so let $V \subseteq U$ be open. Then $V$ is also open in $X$, and $q(V)$ is open in $Y$. But then $q(V)$ is also open in $q(U)$ as desired.
 
     \item This also follows from the fact that final topologies compose. To be explicit, consider for each $\beta \in A$ the diagram
     %
@@ -441,9 +564,9 @@
 
 \section*{Problems}
 
-\begin{problemframed*}[1]
+\begin{problemframed}[3.1]
     Suppose $M$ is an $n$-dimensional manifold with boundary. Show that $\boundary M$ is an $(n-1)$-manifold (without boundary) when endowed with the subspace topology. (We may assume invariance of the boundary.)
-\end{problemframed*}
+\end{problemframed}
 
 \newcommand{\halfspace}{\mathbb{H}}
 
@@ -454,7 +577,29 @@
 \end{solution}
 
 
-\begin{problemframed*}[13]
+\begin{problemframed}[3.2]
+    Suppose $X$ is a topological space and $A \subseteq B \subseteq X$. Show that $A$ is dense in $X$ if and only if $A$ is dense in $B$ and $B$ is dense in $X$.
+\end{problemframed}
+
+\begin{solution}
+    We need to show that $\closure{A} = X$ if and only if $\closure[B]{A} = B$ (i.e. $\closure{A} \intersect B = B$ by \exref{3.7}) and $\closure{B} = X$. The \enquote{only if} part is obvious, so we prove the other implication. % TODO ref to Exercise 3.7(a)
+
+    To this end, notice that the hypotheses imply that
+    %
+    \begin{equation*}
+        X
+            = \closure{B}
+            = \overline{ \closure{A} \intersect B }
+            \subseteq \closure{\closure{A}} \intersect \closure{B}
+            = \closure{A} \intersect X
+            = \closure{A}.
+    \end{equation*}
+    %
+    The opposite inclusion is obvious, so $\closure{A} = X$ as desired.
+\end{solution}
+
+
+\begin{problemframed}[3.13]
     Suppose $X$ and $Y$ are topological spaces and $f \colon X \to Y$ is a continuous map. Prove the following:
     %
     \begin{enumerate}
@@ -462,7 +607,7 @@
         \item If $f$ admits a continuous right inverse, it is a quotient map.
         \item TODO
     \end{enumerate}
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
 \begin{solutionsec}
@@ -487,7 +632,107 @@
 \end{remark}
 
 
-\addtocounter{chapter}{1}
+\chapter{Connectedness and Compactness}
+
+\section*{General notes}
+
+\begin{remarkbreak}[Locally Euclidean implies locally compact]
+    Proposition~4.64 shows that every manifold with or without boundary is locally compact. But local compactness follows directly from being locally Euclidean, as we show. Hence at least manifolds without boundary may easily be shown to be locally compact.
+
+    Let $X$ be a locally Euclidean space of dimension $n$, and let $x \in X$. We show that $x$ has a neighbourhood basis of compact sets, so let $U$ be an open neighbourhood of $x$. Maybe by shrinking it we may assume that $U$ is homeomorphic to an open subset $\hat{U} \subseteq \reals^n$, say through a map $\phi \colon U \to \hat{U}$. Then $\phi(x)$ has a compact neighbourhood $K$ contained in $\hat{U}$, so $\phi\preim(K)$ is a compact neighbourhood of $x$ contained in $U$.
+\end{remarkbreak}
+
+
+\begin{remarkbreak}[Perfect normality of manifolds]
+    We use a slightly different terminology from Lee, in that we do not assume that a normal space is $T_1$. Furthermore, we call a topological space \emph{perfect} if every closed set is a $G_\delta$-set. A topological space that is both perfect and normal will be called \emph{perfectly normal}, and if it is also Hausdorff it is called a \emph{$T_6$-space}. One can show (e.g. Willard 15C) that a space $X$ is $T_6$ if and only if for every pair of disjoint closed sets $A$ and $B$ in $X$, there is a continuous function $f \colon X \to [0,1]$ such that $A = f\preim(0)$ and $B = f\preim(1)$.
+    
+    Corollary~4.89 shows that manifolds are $T_6$ using the theory of partitions of unity. Another approach is to show that manifolds are metrisable, since metrisable spaces are easily shown to be $T_6$. (Indeed, one can use the one-point compactification and Urysohn's metrisation theorem to show that every second countable locally compact Hausdorff space is completely metrisable.)
+\end{remarkbreak}
+
+
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+
+\begin{remarkbreak}[Compactness vs. paracompactness and normality]
+    The usual proof that a compact Hausdorff space is normal can be rephrased in a way to make it more reminiscent of the proof (Theorem~4.81) that a paracompact Hausdorff space is regular.
+
+    Let $X$ be a compact Hausdorff space, $A$ a closed subset and $q \in X \setminus A$. For every $p \in A$ there exist, by the Hausdorff assumption, disjoint open neighbourhoods $U_p$ and $V_p$ of $p$ and $q$ respectively. Each $p \in A$ thus has a neighbourhood $U_p$ such that $q \not\in \closure{U}_p$.
+    
+    The sets $U_p$ is an open cover of $A$, so by compactness of $X$ we obtain a finite subcover $\calU$. Letting $\bbU = \bigunion_{U \in \calU} U$ and $\bbV = X \setminus \closure{\bbU}$ we then have two disjoint open sets, and by finiteness of $\calU$ we have $\closure{\bbU} = \bigunion_{U \in \calU} \closure{U}$, so $\bbV$ contains $q$.
+
+    Notice that the proof goes through if we only assume that $\calU$ is a locally finite refinement of the initial cover, instead of a finite subcover, and this yields the proof in the paracompact case.
+\end{remarkbreak}
+
+
+\section*{Exercises}
+
+
+\section*{Problems}
+
+\begin{problemframed}[4.8]
+    Show that a locally connected topological space is homeomorphic to the disjoint union of its components.
+\end{problemframed}
+%
+For a counterexample when the space is not locally connected, consider $\rationals$ with the subspace topology from $\reals$.
+
+\begin{solution}
+    We prove the following lemma:
+    %
+    \begin{displaytheorem}
+        Let $X$ be a topological space, and let $\{X_\alpha\}_{\alpha \in A}$ be a partition of $X$ into open sets. Then $X$ is homeomorphic to $\coprod_{\alpha \in A} X_\alpha$.
+    \end{displaytheorem}
+    %
+    Let $\iota_\alpha \colon X_\alpha \to X$ and $\kappa_\alpha \colon X_\alpha \to \coprod_{\alpha \in A} X_\alpha$ denote the canonical injections. The maps $\iota_\alpha$ induce a continuous map $f \colon \coprod_{\alpha \in A} X_\alpha \to X$ making the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X_\alpha
+                \ar[d, "\kappa_\alpha", swap]
+                \ar[dr, "\iota_\alpha"] \\
+            \coprod\limits_{\alpha \in A} X_\alpha
+                \ar[r, "f", swap]
+            & X
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commute. Clearly $f$ is bijective, so it suffices to show that it is open. Notice that since each $X_\alpha$ is open in $X$, the maps $\iota_\alpha$ are also open. Now let $U \subseteq \coprod_{\alpha \in A} X_\alpha$ be open, and notice that
+    %
+    \begin{equation*}
+        f(U \intersect X_\alpha)
+            = \iota_\alpha(\kappa_\alpha\preim(U)),
+    \end{equation*}
+    %
+    which is open in $X$ since $\kappa_\alpha$ is continuous and $\iota_\alpha$ is open. Finally notice that
+    %
+    \begin{equation*}
+        f(U)
+            = f \biggl( U \intersect \bigunion_{\alpha \in A} X_\alpha \biggr)
+            = f \biggl( \bigunion_{\alpha \in A} (U \intersect X_\alpha) \biggr)
+            = \bigunion_{\alpha \in A} f(U \intersect X_\alpha),
+    \end{equation*}
+    %
+    so $f(U)$ is a union of open sets, hence is itself open as desired.
+
+    To solve the exercise, simply recall from Proposition~4.25(b) that components are open in a locally connected space. The lemma also implies that we may take the disjoint union of \emph{unions} of components instead of the components themselves.
+\end{solution}
+
+
+\begin{problemframed}[4.11]
+    Let $X$ be a topological space, and let $CX$ be the cone on $X$.
+    %
+    \begin{enumerate}
+        \item Show that $CX$ is path-connected.
+        \item TODO
+    \end{enumerate}
+\end{problemframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $(x,s) \in X \times I$ and consider the map $f \colon I \to X \times I$ given by $f(t) = (x, ts)$, which is a path from $(x,0)$ to $(x,s)$. This yields a continuous function $\tilde{f} \colon I \to CX$ which is a path from $X \times \{0\}$ to $[(x,s)]$. Hence every point in $CX$ can be joined by a path to $X \times \{0\}$, so it is path-connected.
+\end{solutionsec}
+\end{solution}
+
+
 \chapter{Cell Complexes}
 
 \section*{General notes}
@@ -496,27 +741,27 @@
     \label{rem:coherent-topologies}
     Let $(X,\calT)$ be a topological space, and let $\calB$ be a collection of subspaces of $X$ whose union is $X$. We claim that $\calT$ is coherent with $\calB$ if and only if $\calT$ is the final topology coinduced by the inclusion maps $\iota_B \colon B \to X$ for all $B \in \calB$. For this topology has the property that a set $U \subseteq X$ is open if and only if $\iota_B\preim(U) = U \intersect B$ is open in $B$ for all $B \in \calB$.
 
-    This is precisely Problem~5.5.
+    This is precisely \probref{5.5}.
 \end{remarkbreak}
 
 
 \begin{remark}
     We comment on Proposition~5.4, the claim that Hausdorff spaces equipped with a locally finite cell depomposition is a CW complex.
 
-    Let $\calE$ be the cell decomposition in question, and let $\closure{\calE} = \set{\closure{e}}{e \in \calE}$. Then $\closure{\calE}$ is a locally finite closed cover of $X$, so Problem~5.6(b) shows that the topology of $X$ is coherent with $\closure{\calE}$.
+    Let $\calE$ be the cell decomposition in question, and let $\closure{\calE} = \set{\closure{e}}{e \in \calE}$. Then $\closure{\calE}$ is a locally finite closed cover of $X$, so \probref{5.6} shows that the topology of $X$ is coherent with $\closure{\calE}$. % TODO ref to Problem 5.6(b)
 \end{remark}
 
 
 \section*{Exercises}
 
-\begin{exerciseframed*}[3]
+\begin{exerciseframed}[5.3]
     Suppose $X$ is a topological space whose topology is coherent with a family $\calB$ of subspaces.
     %
     \begin{enumerate}
         \item If $Y$ is another topological space, then a map $f \colon X \to Y$ is continuous if and only if $f|_B$ is continuous for every $B \in \calB$.
         \item The map $q \colon \coprod_{B\in\calB} B \to X$ induced by the inclusion of each set $B \hookrightarrow X$ is a quotient map.
     \end{enumerate}
-\end{exerciseframed*}
+\end{exerciseframed}
 
 \begin{solution}
 \begin{solutionsec}
@@ -533,23 +778,23 @@
 
 \section*{Problems}
 
-\begin{problemframed*}[5]
+\begin{problemframed}[5.5]
     Suppose $X$ is a topological space and $\{X_\alpha\}$ is a family of subspaces whose union in $X$. Show that the topology of $X$ is coherent with the subspaces $\{X_\alpha\}$ if and only if it is the finest topology on $X$ for which all of the inclusion maps $i_\alpha \colon X_\alpha \hookrightarrow X$ are continuous.
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
     This follows immediately from the fact that $i_\alpha\preim(U) = U \intersect X_\alpha$ for all $U \subseteq X$.
 \end{solution}
 
 
-\begin{problemframed*}[6]
+\begin{problemframed}[5.6]
     Suppose $X$ is a topological space. Show that the topology of $X$ is coherent with each of the following collections of subspaces of $X$:
     %
     \begin{enumerate}
         \item Any open over of $X$.
         \item Any locally finite closed cover of $X$.
     \end{enumerate}
-\end{problemframed*}
+\end{problemframed}
 
 \begin{solution}
 \begin{solutionsec}
