@@ -191,6 +191,10 @@
 % TODO move to .sty?
 \renewcommand{\disunion}{\sqcup}
 
+\let\oldcoprod\coprod
+\renewcommand{\coprod}{\sqcup}
+\newcommand{\bigcoprod}{\oldcoprod}
+
 
 \begin{document}
 
@@ -330,6 +334,34 @@
 \end{remarkbreak}
 
 
+\begin{remarkbreak}[Embeddings]
+    We show that for embeddings, the properties of being open, closed, and having a left-inverse are almost independent. In \cref{tab:embeddings} we let $S$ denote the Sierpinski space $\{0,1\}$ with topology $\{\emptyset, \{0\}, \{0,1\}\}$.
+
+    Note that all combinations are possible, except that if $f \colon X \to Y$ is an embedding that is both open and closed, then it has a left-inverse: For $f(X)$ is then both open and closed, hence a union of connected components. A left-inverse can then be constructed by sending $Y \setminus f(X)$ to any point of $X$.
+\end{remarkbreak}
+
+\begin{table}
+    \newcommand{\x}{$\times$}
+    \centering
+    \begin{tabular}{cccp{7cm}}
+        \toprule
+        Open & Closed & Split & Example \\
+        \midrule
+        & & & $(0,1] \hookrightarrow [0,2]$ \\
+        \x & & & $(0,1) \hookrightarrow [0,1]$ \\
+        & \x & & $\{0,1\} \hookrightarrow [0,1]$ \\
+        \x & \x & & \textsc{n/a} \\
+        & & \x & The coproduct map $f \coprod g$ (see below). \\
+        \x & & \x & $f \colon \{0\} \hookrightarrow S$ \\
+        & \x & \x & $g \colon (0,1] \hookrightarrow (0,2]$ \\
+        \x & \x & \x & Any homeomorphism. \\
+        \bottomrule
+    \end{tabular}
+    \captiondelim{} % https://tex.stackexchange.com/questions/103166/table-with-blank-caption-but-table-label
+    \caption{}
+    \label{tab:embeddings}
+\end{table}
+
 \begin{remark}
     We rephrase Proposition~3.56 and its proof. First note that \probref{2.19} (which is used in its proof) implies that a locally Euclidean Lindelöf space is second countable. Next let $X$ be a Lindelöf space (so for instance a second countable space), $Y$ a locally Euclidean space, and let $f \colon X \to Y$ be a continuous surjection. Then $Y$ is also Lindelöf, hence second countable.
 
@@ -466,7 +498,7 @@
 
 
 \begin{exerciseframed}[3.43] % TODO: Big coproduct command
-    Let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and let $X = \coprod_{\alpha \in A} X_\alpha$.
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and let $X = \bigcoprod_{\alpha \in A} X_\alpha$.
     %
     \begin{enumerate}
         \item A subset of $X$ is open/closed if and only if its intersection with each $X_\alpha$ is open/closed.
@@ -578,7 +610,7 @@
         \item An injective quotient map is a homeomorphism.
         \item If $q \colon X \to Y$ is a quotient map, a subset $F \subseteq Y$ is closed if and only if $q\preim(F)$ is closed in $X$.
         \item If $q \colon X \to Y$ is a quotient map and $U \subseteq X$ is a saturated open or closed subset, then the restriction $q|_U \colon U \to q(U)$ is a quotient map.
-        \item If $\{q_\alpha \colon X_\alpha \to Y_\alpha\}_{\alpha \in A}$ is an indexed family of quotient maps, then the map $q \colon \coprod_{\alpha \in A} X_\alpha \to \coprod_{\alpha \in A} Y_\alpha$ whose restriction to each $X_\alpha$ is equal to $q_\alpha$ is a quotient map.
+        \item If $\{q_\alpha \colon X_\alpha \to Y_\alpha\}_{\alpha \in A}$ is an indexed family of quotient maps, then the map $q \colon \bigcoprod_{\alpha \in A} X_\alpha \to \bigcoprod_{\alpha \in A} Y_\alpha$ whose restriction to each $X_\alpha$ is equal to $q_\alpha$ is a quotient map.
     \end{enumerate}
 \end{exerciseframed}
 
@@ -601,13 +633,13 @@
                 \ar[dr, "\iota_{X_\beta}", swap]
             && Y_\beta
                 \ar[dr, "\iota_{Y_\beta}"] \\
-            & \coprod\limits_{\alpha \in A} X_\alpha
+            & \bigcoprod\limits_{\alpha \in A} X_\alpha
                 \ar[rr, "q", swap]
-            && \coprod\limits_{\alpha \in A} Y_\alpha
+            && \bigcoprod\limits_{\alpha \in A} Y_\alpha
         \end{tikzcd}
     \end{equation*}
     %
-    Each $Y_\beta$ has the final topology coinduced by $q_\beta$, and $\coprod_{\alpha \in A} Y_\alpha$ has the final topology coinduced by the maps $\iota_{Y_\beta}$. Since final topologies compose, this also has the final topology induced by the maps $\iota_{Y_\beta} \circ q_\beta$. But since the above diagram commutes, this is the same as the final topology coinduced by the maps $q \circ \iota_{X_\beta}$. But since $\coprod_{\alpha \in A} X_\alpha$ itself carries the final topology coinduced by the $\iota_{X_\beta}$, the topology on $\coprod_{\alpha \in A} Y_\alpha$ is the same as the final topology coinduced by the map $q$.
+    Each $Y_\beta$ has the final topology coinduced by $q_\beta$, and $\bigcoprod_{\alpha \in A} Y_\alpha$ has the final topology coinduced by the maps $\iota_{Y_\beta}$. Since final topologies compose, this also has the final topology induced by the maps $\iota_{Y_\beta} \circ q_\beta$. But since the above diagram commutes, this is the same as the final topology coinduced by the maps $q \circ \iota_{X_\beta}$. But since $\bigcoprod_{\alpha \in A} X_\alpha$ itself carries the final topology coinduced by the $\iota_{X_\beta}$, the topology on $\bigcoprod_{\alpha \in A} Y_\alpha$ is the same as the final topology coinduced by the map $q$.
 \end{solutionsec}
 \end{solution}
 
@@ -729,23 +761,23 @@ For a counterexample when the space is not locally connected, consider $\rationa
     We prove the following lemma:
     %
     \begin{displaytheorem}
-        Let $X$ be a topological space, and let $\{X_\alpha\}_{\alpha \in A}$ be a partition of $X$ into open sets. Then $X$ is homeomorphic to $\coprod_{\alpha \in A} X_\alpha$.
+        Let $X$ be a topological space, and let $\{X_\alpha\}_{\alpha \in A}$ be a partition of $X$ into open sets. Then $X$ is homeomorphic to $\bigcoprod_{\alpha \in A} X_\alpha$.
     \end{displaytheorem}
     %
-    Let $\iota_\alpha \colon X_\alpha \to X$ and $\kappa_\alpha \colon X_\alpha \to \coprod_{\alpha \in A} X_\alpha$ denote the canonical injections. The maps $\iota_\alpha$ induce a continuous map $f \colon \coprod_{\alpha \in A} X_\alpha \to X$ making the diagram
+    Let $\iota_\alpha \colon X_\alpha \to X$ and $\kappa_\alpha \colon X_\alpha \to \bigcoprod_{\alpha \in A} X_\alpha$ denote the canonical injections. The maps $\iota_\alpha$ induce a continuous map $f \colon \bigcoprod_{\alpha \in A} X_\alpha \to X$ making the diagram
     %
     \begin{equation*}
         \begin{tikzcd}
             X_\alpha
                 \ar[d, "\kappa_\alpha", swap]
                 \ar[dr, "\iota_\alpha"] \\
-            \coprod\limits_{\alpha \in A} X_\alpha
+            \bigcoprod\limits_{\alpha \in A} X_\alpha
                 \ar[r, "f", swap]
             & X
         \end{tikzcd}
     \end{equation*}
     %
-    commute. Clearly $f$ is bijective, so it suffices to show that it is open. Notice that since each $X_\alpha$ is open in $X$, the maps $\iota_\alpha$ are also open. Now let $U \subseteq \coprod_{\alpha \in A} X_\alpha$ be open, and notice that
+    commute. Clearly $f$ is bijective, so it suffices to show that it is open. Notice that since each $X_\alpha$ is open in $X$, the maps $\iota_\alpha$ are also open. Now let $U \subseteq \bigcoprod_{\alpha \in A} X_\alpha$ be open, and notice that
     %
     \begin{equation*}
         f(U \intersect X_\alpha)
@@ -809,7 +841,7 @@ For a counterexample when the space is not locally connected, consider $\rationa
     %
     \begin{enumerate}
         \item If $Y$ is another topological space, then a map $f \colon X \to Y$ is continuous if and only if $f|_B$ is continuous for every $B \in \calB$.
-        \item The map $q \colon \coprod_{B\in\calB} B \to X$ induced by the inclusion of each set $B \hookrightarrow X$ is a quotient map.
+        \item The map $q \colon \bigcoprod_{B\in\calB} B \to X$ induced by the inclusion of each set $B \hookrightarrow X$ is a quotient map.
     \end{enumerate}
 \end{exerciseframed}
 
@@ -821,7 +853,7 @@ For a counterexample when the space is not locally connected, consider $\rationa
 
     \item Notice that $q\preim(U) = U \intersect B$ for all $U \subseteq X$. Since the topology on $X$ is coherent with $\calB$, the set $U$ is open if and only if $U \intersect B$ is open for all $B \in \calB$. But this precisely expresses that $q$ is a quotient map.
 
-    Alternatively, this follows since $X$ has the final topology induced by the inclusion maps, but the disjoint union $\coprod_{B\in\calB} B$ also has a final topology, and final topologies compose.
+    Alternatively, this follows since $X$ has the final topology induced by the inclusion maps, but the disjoint union $\bigcoprod_{B\in\calB} B$ also has a final topology, and final topologies compose.
 \end{solutionsec}
 \end{solution}
 
