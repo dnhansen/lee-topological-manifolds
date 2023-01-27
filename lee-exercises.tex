@@ -718,6 +718,21 @@
 
 \section*{General notes}
 
+\begin{remarkbreak}[Connectedness of products]
+    We prove the following claim:
+    %
+    \begin{displaytheorem}
+        A nonempty product $X = \bigprod_{\alpha \in A} X_\alpha$ is connected iff each factor $X_\alpha$ is connected.
+    \end{displaytheorem}
+    %
+    Call a set on the form $X_\alpha \prod \bigprod_{\beta \in A \setminus \{\alpha\}} \{x_\beta\}$ with $x_\beta \in X_\beta$ a \emph{slice}. Such a set is homeomorphic to $X_\alpha$, hence connected. It follows by induction from Proposition~4.9(d) that finite unions of slices are connected. In particular, finite products of connected spaces are connected.
+
+    Now assume that there is a disconnection $X = U \union V$. Since $U$ and $V$ are open they must contain basic open sets $B$ and $C$, respectively. By the definition of the product topology, $B$ and $C$ are product sets with cofinitely many factors on the form $X_\alpha$. Hence there exist $x \in B$ and $y \in C$ that differ in only finitely many coordinates, say $\alpha_1, \ldots, \alpha_n$.\footnote{Incidentally, this is where the argument breaks down for the box topology. Indeed, e.g. $\reals^\omega$ is disconnected when equipped with the box topology.} Write $X' = X_{\alpha_1} \prod \cdots \prod X_{\alpha_n}$, and notice that $X'$ is connected.
+
+    The projection $X \to X'$ is clearly open, so since it is surjective it has a continuous right-inverse $\rho$. But then $\rho\preim(U) \union \rho\preim(V)$ is a disconnection of $X'$, which is a contradiction.
+\end{remarkbreak}
+
+
 \begin{remarkbreak}[Locally Euclidean implies locally compact]
     Proposition~4.64 shows that every manifold with or without boundary is locally compact. But local compactness follows directly from being locally Euclidean, as we show. Hence at least manifolds without boundary may easily be shown to be locally compact.
 
