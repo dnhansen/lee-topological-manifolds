@@ -186,6 +186,7 @@
 \newcommand{\calF}{\mathcal{F}}
 \newcommand{\calE}{\mathcal{E}}
 \newcommand{\calT}{\mathcal{T}}
+\newcommand{\calO}{\mathcal{O}}
 \newcommand{\bbF}{\mathbb{F}}
 
 % TODO move to .sty?
@@ -275,6 +276,35 @@
     \end{equation*}
     %
     which shows that $f(F) = \closure{f(F)}$, so $f(F)$ is closed.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{problemframed}[2.11]
+    Let $f \colon X \to Y$ be a continuous map between topological spaces, and let $\calB$ be a basis for the topology of $X$. Let $f(\calB)$ denote the collection $\set{f(B)}{B \in \calB}$ of subsets of $Y$. Show that $f(\calB)$ is a basis for the topology of $Y$ if and only if $f$ is surjective and open.
+\end{problemframed}
+
+\begin{solution}
+    First assume that $f(\calB)$ is a basis for the topology of $Y$. Then $Y$ is a union of sets on the form $f(B)$, and the union of the sets $B$ map onto $Y$, so $f$ is surjective. Next, since images preserve unions, to show that $f$ is open it suffices to show that $f(B)$ is open for all $B \in \calB$. But this is obvious.
+
+    Conversely, assume that $f$ is surjective and open, let $V \subseteq Y$, and let $y \in V$. If $x \in f\preim(y)$ by surjectivity, then there is some $B \in \calB$ with $x \in B \subseteq f\preim(V)$. But then $y \in f(B) \subseteq f(f\preim(V)) \subseteq V$ (in fact we have equality). But then $f(B)$ is open as required.
+\end{solution}
+
+
+\begin{problemframed}[2.19]
+    Let $X$ be a topological space and let $\calU$ be an open cover of $X$.
+    %
+    \begin{enumerate}
+        \item Suppose we are given a basis $\calB_U$ for each $U \in \calU$ (when considered as a topological space in its own right). Show that the union of all those bases is a basis for $X$.
+        \item Show that if $\calU$ is countable and each $U \in \calU$ is second countable, then $X$ is second countable.
+    \end{enumerate}
+\end{problemframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $V \subseteq X$ be open, and let $x \in V$. Then $x$ lies in some $U \in \calU$, and since $U \intersect V$ is open in $U$ there is some $B \in \calB_U$ with $x \in B \subseteq U \intersect V$.
+
+    \item This is obvious since a countable union of countable sets is countable.
 \end{solutionsec}
 \end{solution}
 
@@ -622,7 +652,7 @@
     
     \item This follows easily from the definition of the quotient topology by taking complements.
 
-    \item Assume that $U$ is open (the case where $U$ is closed is similar). By Proposition~3.60 (i.e. \exref{3.61}) it suffices to show that $q|_U$ takes saturated open subsets of $U$ to open subsets, so let $V \subseteq U$ be open. Then $V$ is also open in $X$, and $q(V)$ is open in $Y$. But then $q(V)$ is also open in $q(U)$ as desired.
+    \item Assume that $U$ is open (the case where $U$ is closed is similar). By Proposition~3.60 (i.e. \exref{3.61}) it suffices to show that $q|_U$ takes saturated open subsets of $U$ to open subsets, so let $V \subseteq U$ be open and $q|_U$-saturated. But then $V$ is also $q$-saturated: For if $W \subseteq q(U)$, then we have $q|_U\preim(W) = q\preim(W)$ since $U$ is $q$-saturated and is thus a union of fibres. Hence $V$ is open in $X$ (since $U$ is) and $q$-saturated, so $q(V)$ is open in $Y$. But then $q(V)$ is also open in $q(U)$ as desired.
 
     \item This also follows from the fact that final topologies compose. To be explicit, consider for each $\beta \in A$ the diagram
     %
@@ -681,6 +711,24 @@
 \end{solution}
 
 
+\begin{problemframed}[3.5]
+    Show that a finite product of open maps is open; give a counterexample to show that a finite product of closed maps need not be closed.
+\end{problemframed}
+
+\begin{solution}
+    Let $f_1 \colon X_1 \to Y_1, \ldots, f_n \colon X_n \to Y_n$ be open maps, and let $f$ be their product. To show that $f$ is open it suffices to show that $f(U)$ for a basic open set $U$, so write $U = U_1 \prod \cdots \prod U_n$ for open sets $U_i \subseteq X_i$. But then
+    %
+    \begin{equation*}
+        f(U)
+            = f_1(U_1) \prod \cdots f_n(U_n),
+    \end{equation*}
+    %
+    which is a finite product of open sets, and hence is open as desired.
+
+    TODO: Closed map counterexample.
+\end{solution}
+
+
 \begin{problemframed}[3.13]
     Suppose $X$ and $Y$ are topological spaces and $f \colon X \to Y$ is a continuous map. Prove the following:
     %
@@ -712,6 +760,50 @@
 \begin{remark}
     I would have liked for split mono- and epimorphisms to be open and closed, but I'm not sure this is the case. Instead, this problem and Proposition~3.69 seem to provide independent criteria under which a continuous map $f$ is an embedding or a quotient map: In either case $f$ must be injective/surjective. But then we further assume either that $f$ splits, or that $f$ is open/closed. In other words, the hypothesis that $f$ splits can be replaced with the weaker hypothesis that $f$ is injective/surjective, but then we must further assume that $f$ is open or closed.
 \end{remark}
+
+
+\begin{problemframed}[3.22]
+    Let $G$ be a group acting by homeomorphisms on a topological space $X$, and let $\calO \subseteq X \times X$ be the subset defined by
+    %
+    \begin{equation*}
+        \calO
+            = \set{(x_1,x_2)}{\exists g \in G \colon x_1 = gx_2}
+            = \set{(x_1,x_2)}{x_1 \sim x_2}.
+    \end{equation*}
+    %
+    It is called the \textbf{orbit relation} because $(x_1,x_2) \in \calO$ if and only if $x_1$ and $x_2$ are in the same orbit.
+    %
+    \begin{enumerate}
+        \item Show that the quotient map $q \colon X \to X/G$ is an open map.
+        \item Conclude that $X/G$ is Hausdorff if and only if $\calO$ is closed in $X \times X$.
+    \end{enumerate}
+\end{problemframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Notice that for any $U \subseteq X$ we have
+    %
+    \begin{equation*}
+        q\preim(q(U))
+            = \set{x \in X}{\exists g \in G, y \in U \colon x = gy}
+            = \bigunion_{\substack{g \in G\\ y \in U}} \{ gy \}
+            = \bigunion_{g \in G} gU.
+    \end{equation*}
+    %
+    Hence if $U$ is open, then since $x \mapsto gx$ is a homeomorphism for all $g \in G$, it follows that $q\preim(q(U))$ is open. But then $q(U)$ is open in $X/G$ by the definition of the quotient topology, and so $q$ is open.
+
+    \item This is immediate from Proposition~3.57.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{problemframed}[3.24]
+    Consider the action of $O(n)$ on $\reals^n$ by matrix multiplication as in Example~3.88(b). Prove that the quotient space is homeomorphic to $[0,\infty)$.
+\end{problemframed}
+
+\begin{solution}
+    Consider the function $f \colon \reals^n \to [0,\infty)$ given by $f(x) = \norm{x}$, and notice that this makes the same identifications as the quotient map $\reals^n \to \reals^n/O(n)$. We claim that $f$ is open. It suffices to show that the image of an open ball is open (since the open balls form a basis for the topology on $\reals^n$), and since $f = f \circ R$ for any $R \in O(n)$ we may assume that the ball is on the form $B(x,r)$ with $x = (x_1,0,\ldots,0)$ where $x_1 \geq 0$. Clearly $f(B(x,r)) = (x_1 - r, x_1 + r) \intersect [0,\infty)$, which is open. Thus $f$ is a quotient map, and the claim follows by the uniqueness of quotient spaces.
+\end{solution}
 
 
 \chapter{Connectedness and Compactness}
@@ -765,6 +857,17 @@
 
 
 \section*{Problems}
+
+\begin{problemframed}[4.7]
+    Let $q \colon X \to Y$ be an open quotient map. Show that if $X$ is locally connected, locally path-connected, or locally compact, then $Y$ has the same property.
+\end{problemframed}
+%
+Note that an open continuous surjection is a quotient map.
+
+\begin{solution}
+    The first two properties follow from Problem~2.11 [TODO link]. Assume that $X$ is locally compact, and let $y \in Y$. Then there is some $x \in X$ with $f(x) = y$ by surjectivity, and there is an open set $U$ and a compact set $K$ with $x \in U \subseteq K$. It follows that $y \in f(U) \subseteq f(K)$. Since $f$ is open $f(U)$ is open, and $f(K)$ is compact. Thus $f(K)$ is a compact neighbourhood of $y$.
+\end{solution}
+
 
 \begin{problemframed}[4.8]
     Show that a locally connected topological space is homeomorphic to the disjoint union of its components.
@@ -924,5 +1027,373 @@ For a counterexample when the space is not locally connected, consider $\rationa
     The collection $\set{C \intersect F}{F \in \calF}$ is clearly also locally finite, so since each $C \intersect F$ is closed in $X$, the lemma shows that the above union is also closed in $X$.
 \end{solutionsec}
 \end{solution}
+
+
+
+\addtocounter{chapter}{1}
+
+\chapter{Homotopy and the Fundamental Group}
+
+\section*{General notes}
+
+\begin{remarkbreak}[Composition of relative homotopies]
+    \label{rem:relative-homotopy-composition}
+    Let $f_0,f_1 \colon X \to Y$ and $g_0,g_1 \colon Y \to Z$, let $A \subseteq X$ and $B \subseteq Y$. Assume that $F \colon f_0 \simeq f_1$ rel $A$, $G \colon g_0 \simeq g_1$ rel $B$, and $f_0(A) \subseteq B$. Then $g_0 \circ f_0 \simeq g_1 \circ f_1$ rel $A$.
+
+    Define $H \colon X \prod I \to Z$ by $H(x,t) = G(F(x,t),t)$. Then it is easy to see that $H$ is a homotopy from $g_0 \circ f_0$ to $g_1 \circ f_1$. Furthermore, for $x \in A$ and $t \in I$ we have
+    %
+    \begin{equation*}
+        H(x,t)
+            = G(F(x,t),t)
+            = G(f_0(x),t)
+            = g_0(f_0(x)),
+    \end{equation*}
+    %
+    since $f_0(x) \in B$ and $g_0 \simeq g_1$ rel $B$.
+\end{remarkbreak}
+
+
+\begin{remarkbreak}[Reparametrisation]
+    In Lemma~7.9 we prove that a path $f \colon I \to X$ and any reparametrisation $f \circ \phi$ are path-homotopic, where $\phi \colon I \to I$ is a continuous map fixing $0$ and $1$. We may easily write down a concrete homotopy between $f$ and $f \circ \phi$, but notice that this also follows from \cref{rem:relative-homotopy-composition}:
+
+    Notice that since $I$ is convex and $\phi$ and $\id_I$ agree on $\{0,1\}$, [TODO ref] Exercise~7.6 implies that $\phi \simeq \id_I$ rel $\{0,1\}$. Since trivially $f \simeq f$ rel $I$, \cref{rem:relative-homotopy-composition} then implies that $f \circ \phi \simeq f \circ \id_I = f$ rel $\{0,1\}$.
+\end{remarkbreak}
+
+
+\begin{remarkbreak}[Circle representatives]
+    We rephrase the implication (c) $\implies$ (a) of Proposition~7.16. Assume that $\tilde{f} \colon \sphere^1 \to X$ extends to a continuous map $F \colon \clball^2 \to X$. Since $\clball^2$ is convex the constant path $c_1$ and the path $\iota_{\sphere^1} \circ \omega$ are homotopic rel $\{0,1\}$ by [TODO ref] Exercise~7.6. \Cref{rem:relative-homotopy-composition} then implies that $F \circ c_1 = c_p$ and $F \circ \iota_{\sphere^1} \circ \omega = f$ are homotopic rel $\{0,1\}$, i.e. path-homotopic.
+\end{remarkbreak}
+
+
+\section*{Exercises}
+
+\begin{exerciseframed}[7.6]
+    Let $B \subseteq \reals^n$ be any convex set, $X$ be any topological space, and $A$ be any subset of $X$. Show that any two continuous maps $f,g \colon X \to B$ that agree on $A$ are homotopic relative to $A$.
+\end{exerciseframed}
+
+\begin{solution}
+    Consider the straight-line homotopy $H \colon X \prod I \to B$ given by $H(x,t) = (1-t)f(x) + t g(x)$. For $a \in A$ we have $H(a,t) = f(a) = g(a)$, so $H$ is stationary on $A$ as required.
+\end{solution}
+
+
+\begin{exerciseframed}[7.14]
+    Let $X$ be a topological space.
+    %
+    \begin{enumerate}
+        \item Let $f,g \colon I \to X$ be two paths from $p$ to $q$. Show that $f \sim g$ if and only if $f \cdot \overline{g} \sim c_p$.
+        \item Assume that $X$ is path-connected. Show that $X$ is simply connected if and only if any two paths in $X$ with the same initial and terminal points are path-homotopic.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item First assume that $f \sim g$. Then
+    %
+    \begin{equation*}
+        f \cdot \overline{g}
+            \sim g \cdot \overline{g}
+            \sim c_p.
+    \end{equation*}
+    %
+    Conversely, if $f \cdot \overline{g} \sim c_p$ then
+    %
+    \begin{equation*}
+        f
+            \sim f \cdot c_q
+            \sim f \cdot \overline{g} \cdot g
+            \sim c_p \cdot g
+            \sim g,
+    \end{equation*}
+    %
+    as desired.
+
+    \item First assume that $X$ is simply connected, i.e. that every loop is null-homotopic. If $f$ and $g$ are such paths, then $f \cdot \overline{g}$ is a loop and hence null-homotopic. By (a), this implies that $f \sim g$. Conversely, if $h$ is a loop at $p \in X$, then $h$ and $c_p$ are paths with the same initial and terminal points, and are hence path-homotopic.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed}[7.15]
+    Show that every convex subset of $\reals^n$ is simply connected. Conclude that $\reals^n$ itself is simply connected.
+\end{exerciseframed}
+%
+This of course immediately generalises to convex subsets of any topological vector space.
+
+\begin{solution}
+    Any pair of paths in a convex set with the same initial and terminal points are path-homotopic through the straight-line homotopy. The claim then follows from [TODO ref] Exercise~7.14.
+\end{solution}
+
+
+\begin{exerciseframed}[7.23]
+    The path homotopy relation is preserved by composition with continuous maps. That is, if $f_0,f_1 \colon I \to X$ are path-homotopic and $\phi \colon X \to Y$ is continuous, then $\phi \circ f_0$ and $\phi \circ f_1$ are path-homotopic.
+\end{exerciseframed}
+
+\begin{solution}
+    Two maps $I \to X$ are path-homotopic just when they are homotopic relative to $\{0,1\}$. But $\phi \simeq \phi$ rel $X$ and $f_0(\{0,1\}) \subseteq X$ (trivially), so \cref{rem:relative-homotopy-composition} implies that $\phi \circ f_0 \simeq \phi \circ f_1$ rel $\{0,1\}$ as required.
+\end{solution}
+
+
+\begin{exerciseframed}[7.36]
+    Homotopy equivalence is an equivalence relation on the class of all topological spaces.
+\end{exerciseframed}
+
+\begin{solution}
+    Homotopy equivalence is obviously reflexive and symmetric. Assume that $\phi \colon X \to Y$ and $\psi \colon Y \to Z$ are homotopy equivalences with homotopy inverses $\overline{\phi}$ and $\overline{\psi}$ respectively. Then notice that
+    %
+    \begin{equation*}
+        (\overline{\phi} \circ \overline{\psi}) \circ (\psi \circ \phi)
+            = \overline{\phi} \circ (\overline{\psi} \circ \psi) \circ \phi
+            \simeq \overline{\phi} \circ \id_Y \circ \phi
+            = \overline{\phi} \circ \phi
+            = \id_X,
+    \end{equation*}
+    %
+    and similarly in the other order. Thus $\overline{\phi} \circ \overline{\psi}$ is a homotopy inverse for $\psi \circ \phi$, and $X \simeq Z$.
+\end{solution}
+
+
+\begin{exerciseframed}[7.42]
+    Show that the following are equivalent:
+    %
+    \begin{enumerate}
+        \item $X$ is contractible.
+        \item $X$ is homotopy equivalent to a one-point space.
+        \item Each point of $X$ is a deformation retract of $X$.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+    Notice that if $r \colon X \to \{*\}$ is a map into a one-point space, then the right homotopy inverses of $r$ are on the form $\iota_p(*) = p$ any $p \in X$, and that any such right homotopy inverse is in fact a set-theoretic right-inverse, i.e. $r \circ \iota_p = \id_{\{*\}}$. Thus if $X \to \{*\}$ is a homotopy equivalence, we may assume that it is on the form $r$ with right-inverse $\iota_p$. In fact, we may assume that $* = p$. It thus follows that $X$ is homotopy equivalent to a one-point space just when there is a point $p \in X$ such that $\iota_p \circ r \simeq \id_X$.
+    
+    Now let $p \in X$ and define maps $r_p \colon X \to \{p\}$ and $c_p \colon X \to X$ by $r_p(x) = p$ and $c_p = \iota_{\{p\}} \circ r_p$. Notice that $X$ is contractible just when there is a $p \in X$ such that $\id_X \simeq c_p$. But by definition of $c_p$, this is the case just when there is a $p \in X$ such that $\iota_p \circ r_p \simeq \id_X$, i.e. when $X$ is homotopy equivalent to a point. Thus (a) and (b) are equivalent.
+
+    Clearly (c) implies (b), since a deformation retract is a homotopy equivalence. Conversely, the above shows that for any point $p \in X$ we have $r_p \circ \iota_p = \id_{\{p\}}$ and $\iota_p \circ r_p \simeq \id_X$, which says that $\{p\}$ is a deformation retract of $X$.
+\end{solution}
+
+
+\section*{Problems}
+
+\begin{problemframed}[7.1]
+    Suppose $f,g \colon \sphere^n \to \sphere^n$ are continuous maps such that $f(x) \neq -g(x)$ for any $x \in \sphere^n$. Prove that $f$ and $g$ are homotopic.
+\end{problemframed}
+
+\begin{solution}
+    Define $H \colon \sphere^n \prod I \to \sphere^n$ by
+    %
+    \begin{equation*}
+        H(x,t)
+            = \frac{(1-t)f(x) + t g(x)}{\norm{(1-t)f(x) + t g(x)}}.
+    \end{equation*}
+    %
+    This is well-defined since the denominator is always nonzero, for if the line segment connecting $f(x)$ and $g(x)$ went through the origin, then we would have $f(x) = -g(x)$.
+\end{solution}
+
+
+\begin{problemframed}[7.2]
+    Suppose $X$ is a topological space, and $g$ is any path in $X$ from $p$ to $q$. Let $\Phi_g \colon \pi_1(X,p) \to \pi_1(X,q)$ denote the group isomorphism defined in Theorem~7.13.
+    %
+    \begin{enumerate}
+        \item Show that if $h$ is another path in $X$ starting at $q$, then $\Phi_{g \cdot h} = \Phi_h \circ \Phi_g$.
+        \item Suppose $\psi \colon X \to Y$ is continuous, and show that the following diagram commutes:
+        %
+        \begin{equation*}
+            \begin{tikzcd}
+                \pi_1(X,p)
+                    \ar[r, "\psi_*"]
+                    \ar[d, "\Phi_g", swap]
+                & \pi_1(Y,\psi(p))
+                    \ar[d, "\Phi_{\psi \circ g}"] \\
+                \pi_1(X,q)
+                    \ar[r, "\psi_*"]
+                & \pi_1(Y,\psi(q))
+            \end{tikzcd}
+        \end{equation*}
+    \end{enumerate}
+\end{problemframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Since $\overline{g \cdot h} = \overline{h} \cdot \overline{g}$, we have
+    %
+    \begin{equation*}
+        \Phi_{g \cdot h}[f]
+            = [\overline{g \cdot h}] \cdot [f] \cdot [g \cdot h]
+            = [\overline{h}] \cdot [\overline{g}] \cdot [f] \cdot [g] \cdot [h]
+            = [\overline{h}] \cdot \Phi_g[f] \cdot [h]
+            = \Phi_h \circ \Phi_g[f],
+    \end{equation*}
+    %
+    as desired.
+
+    \item Notice that $\overline{\psi \circ g} = \psi \circ \overline{g}$. Then
+    %
+    \begin{align*}
+        \Phi_{\psi \circ g} \circ \psi_*[f]
+            &= \Phi_{\psi \circ g} [\psi \circ f]
+             = [\overline{\psi \circ g}] \cdot [\psi \circ f] \cdot [\psi \circ g] \\
+            &= [\psi \circ (\overline{g} \cdot f \cdot g)]
+             = \psi_*[\overline{g} \cdot f \cdot g]
+             = \psi_* \circ \Phi_g [f].
+    \end{align*}
+\end{solutionsec}
+\end{solution}
+
+
+\begin{problemframed}[7.3]
+    Let $X$ be a path-connected topological space, and let $p,q \in X$. Show that all paths from $p$ to $q$ give the same isomorphism of $\pi_1(X,p)$ with $\pi_1(X,q)$ if and only if $\pi_1(X,p)$ is abelian.
+\end{problemframed}
+
+\begin{solution}
+    First assume that $\pi_1(X,p)$ is abelian, and let $g$ and $h$ be paths from $p$ to $q$. For $[f] \in \pi_1(X,p)$ notice that $[g] \cdot [\overline{h}]$ is a loop at $p$ so it commutes with $[f]$. Hence we have
+    %
+    \begin{align*}
+        \Phi_g [f]
+            &= [\overline{g}] \cdot [f] \cdot [g]
+             = [\overline{g}] \cdot [f] \cdot [g] \cdot [\overline{h}] \cdot [h] \\
+            &= [\overline{g}] \cdot [g] \cdot [\overline{h}] \cdot [f] \cdot [h]
+             = [\overline{h}] \cdot [f] \cdot [h]
+             = \Phi_h [f],
+    \end{align*}
+    %
+    as desired.
+
+    Conversely assume that all paths from $p$ to $q$ induce the same isomorphism, and let $[f],[f'] \in \pi_1(X,p)$. If $g$ is any path from $p$ to $q$ we in particular have $\Phi_g = \Phi_{f \cdot g}$, so
+    %
+    \begin{equation*}
+        [\overline{g}] \cdot [f'] \cdot [g]
+            = \Phi_g [f']
+            = \Phi_{f \cdot g} [f']
+            = [\overline{g}] \cdot [\overline{f}] \cdot [f'] \cdot [f] \cdot [g].
+    \end{equation*}
+    %
+    Cancelling then implies that $[f'] = [\overline{f}] \cdot [f'] \cdot [f]$, so $[f]$ and $[f']$ commute.
+\end{solution}
+
+
+\begin{problemframed}[7.4]
+    Prove the square lemma (Lemma~7.17).
+\end{problemframed}
+
+\begin{solution}
+    Let $i_f \colon I \to I \prod I$ be the path $i_f(s) = (s,0)$. In the notation of Lemma~7.17 we thus have $f = F \circ i_f$, and similarly for the other three paths. Since $I \prod I$ is simply-connected (since it is convex) we have $i_f \cdot i_g \sim i_h \cdot i_k$. It follows that
+    %
+    \begin{equation*}
+        f \cdot g
+            = (F \circ i_f) \cdot (F \circ i_g)
+            = F \circ (i_f \cdot i_g)
+            \sim F \circ (i_h \cdot i_k)
+            = (F \circ i_h) \cdot (F \circ i_k)
+            = h \cdot k,
+    \end{equation*}
+    %
+    where we have used Proposition~7.22 (i.e. \cref{rem:relative-homotopy-composition}) and the definition of products of paths (cf. the proof of Proposition~7.24).
+\end{solution}
+
+
+\begin{problemframed}[7.5]
+    Let $G$ be a topological group.
+    %
+    \begin{enumerate}
+        \item Prove that up to isomorphism, $\pi_1(G,g)$ is independent of the choice of the base point $g \in G$.
+        \item Prove that $\pi_1(G,g)$ is abelian.
+    \end{enumerate}
+\end{problemframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $g,g' \in G$, and consider the left-multiplication $\lambda_{g'g\inv}$ that sends $g$ to $g'$. This is a homeomorphism, so it induces a homeomorphism $(\lambda_{g'g\inv})_*$ between $\pi_1(G,g)$ and $\pi_1(G,g')$. (Indeed, we only need $G$ to be homogeneous for this argument to go through.)
+
+    \item Let $f,f' \in \Omega(G,1)$ and consider the map $F \colon I \prod I \to G$ given by $F(s,t) = f(s)f'(t)$. The square lemma then implies that
+    %
+    \begin{equation*}
+        f \cdot f'
+            = F(\,\cdot\,, 0) \cdot F(1, \,\cdot\,)
+            \sim F(0, \,\cdot\,) \cdot F(\,\cdot\,, 1)
+            = f' \cdot f,
+    \end{equation*}
+    %
+    which implies that $[f] \cdot [f'] = [f'] \cdot [f]$ as desired.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{problemframed}[7.7]
+    Suppose $(M_1,d_1)$ and $(M_1,d_2)$ are metric spaces. A map $f \colon M_1 \to M_2$ is said to be \textbf{uniformly continuous} if for every $\epsilon > 0$, there exists $\delta > 0$ such that for all $x,y \in M_1$, $d_1(x,y) < \delta$ implies $d_2(f(x),f(y)) < \epsilon$. Use the Lebesgue number lemma to show that if $M_1$ is compact, then every continuous map $f \colon M_1 \to M_2$ is uniformly continuous.
+\end{problemframed}
+
+\begin{solution}
+    For each $z \in M_2$ consider the ball $B_{d_2}(z,\epsilon/2)$, and let $\calU$ be the collection of all preimages $f\preim(B_{d_2}(z,\epsilon/2))$. By continuity, this is an open cover of $M_1$, so it has a Lebesgue number $\delta > 0$. If for $x,y \in M_1$ we have $d_1(x,y) < \delta$, then the set $\{x,y\}$ has diameter less than $\delta$, so there is some $U \in \calU$ with $\{x,y\} \subseteq U$. Thus $f(x)$ and $f(y)$ lie in some $\epsilon/2$-ball, say $B_{d_2}(z,\epsilon/2)$. It follows that
+    %
+    \begin{equation*}
+        d_2(f(x),f(y))
+            \leq d_2(f(x),z) + d_2(f(y),z)
+            < \frac{\epsilon}{2} + \frac{\epsilon}{2}
+            = \epsilon,
+    \end{equation*}
+    %
+    as desired.
+\end{solution}
+
+
+\begin{problemframed}[7.8]
+    Prove that a retract of a Hausdorff space is a closed subset.
+\end{problemframed}
+
+\begin{solution}
+    Let $X$ be a Hausdorff space, and let $r \colon X \to A$ be a retraction onto a subspace $A$. Notice that $A$ consists of precisely those points $x \in X$ such that $\iota_A \circ r(x) = x$, or in other words, $x \in A$ just when $(\iota_A \circ r(x), x)$ lies in the diagonal $\Delta$ of $X$. That is, $A$ is the preimage of $\Delta$ under $(\iota_A \circ r) \prod \id_X$. But $\Delta$ is closed in $X \prod X$ by [TODO ref] Problem~3.6, so this preimage is closed.
+\end{solution}
+
+
+\addtocounter{chapter}{3}
+\chapter{Covering Maps}
+
+\section*{General notes}
+
+\section*{Exercises}
+
+\begin{exerciseframed}[11.2]
+    \begin{enumerate}
+        \item Every covering map is a local homeomorphism, an open map, and a quotient map.
+        \item An injective covering map is a homeomorphism.
+        \item A finite product of covering maps is a covering map.
+        \item The restriction of a covering map to a saturated, connected, open subset is a covering map onto its image.
+    \end{enumerate}
+\end{exerciseframed}
+
+\begin{solution}
+\begin{solutionsec}
+    \item Let $q \colon E \to X$ be a covering map, and let $e \in E$. Then $q(e)$ has an evenly covered neighbourhood $U$, so $q\preim(U)$ is an open neighbourhood of $e$ such that $q|_{q\preim(U)} \colon q\preim(U) \to U$ is a homeomorphism. Hence $q$ is a local homeomorphism.
+
+    By Proposition~2.31 $q$ is thus also open. Since it is surjctive, Proposition~3.67 then implies that $q$ is a quotient map.
+
+    \item If $q$ is injective it is bijective, so Proposition~2.31 implies that $q$ is a homeomorphism.
+    
+    \item Let $q_i \colon E_i \to X_i$ be a covering map for $i \in \{1, \ldots, n\}$, let $E = E_1 \prod \cdots \prod E_n$, $X = X_1 \prod \cdots \prod X_n$, and $q = q_1 \prod \cdots \prod q_n$. Then $q$ is a continuous surjection, and $E$ is connected and locally path-connected. It suffices to show that every point in $X$ has an evenly covered neighbourhood.
+    
+    Let $x = (x_1, \ldots, x_n) \in X$, and let $U_i \subseteq X_i$ be an evenly covered neighbourhood of $x_i$. Then $q_i\preim(U_i)$ is a disjoint union of sets $\tilde{U}_{i \alpha} \subseteq E_i$ with $\tilde{U}_{i \alpha} \cong U_i$. The set $U = U_1 \prod \cdots \prod U_n$ is open since it is a finite product, and
+    %
+    \begin{equation*}
+        q\preim(U)
+            = q_1\preim(U_1) \prod \cdots \prod q_n\preim(U_n),
+    \end{equation*}
+    %
+    which is a disjoint union of sets on the form $\tilde{U}_{1 \alpha_1} \prod \cdots \prod \tilde{U}_{n \alpha_n}$, and these sets are homeomorphic to $U$.
+
+    \item Let $\tilde{V} \subseteq E$ be a saturated, connected open set. It is then also locally path-connected and can be written on the form $q\preim(V)$ for a subset $V \subseteq X$. Let $x \in V$ and let $U \subseteq X$ be an evenly covered neighbourhood of $x$. We claim that $U \intersect V$ is evenly covered by $q|_{\tilde{V}}$. If $\tilde{U}$ is a sheet of the covering over $U$, then $q$ restricts to a homeomorphism $\tilde{U} \to U$. Hence it also restricts to a homeomorphism $\tilde{U} \intersect \tilde{V} = \tilde{U} \intersect q\preim(V) \to U \intersect V$. Furthermore, the sets on the form $\tilde{U} \intersect \tilde{V}$ are disjoint and open in $\tilde{V}$, proving the claim. [TODO: Where do we use that $\tilde{V}$ is open??]
+\end{solutionsec}
+\end{solution}
+
+
+\section*{Problems}
+
+\begin{problemframed}[11.2]
+    Prove that for any $n \geq 1$, the map $q \colon \sphere^n \to \projspace^n$ that sends each point $x$ in the sphere to the line through the origin and $x$, thought of as a point in $\projspace^n$, is a covering map.
+\end{problemframed}
+
+\begin{solution}
+    Let $\sim$ be the equivalence class on $\sphere^n$ identifying antipodal points. We have then seen that $\projspace^n \cong \sphere^n/\{sim\}$, where we identify a line through the origin with its intersection with $\sphere^n$. Thus an element in $\projspace^n$ can be considered a pair of points $\{x,-x\}$ with $x \in \sphere^n$.
+
+    Now consider sets $U = B(x,1) \intersect \sphere^n$ and $V = (-x,1) \intersect \sphere^n$. These are clearly disjoint with $q(U) = q(V)$, and since $q$ is open the common image of $U$ and $V$ is open in $\projspace^n$. But $q$ restricted to each of $U$ or $V$ is injective, hence a homeomorphism. Thus the set $q(U) = q(V)$ is an evenly covered neighbourhood of $\{x,-x\}$ in $\projspace^n$, and so $q$ is a (2-sheeted) covering map.
+\end{solution}
+
 
 \end{document}
